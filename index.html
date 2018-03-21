@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>TFG-Alejandro Oliva</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  </head>
+  <body>
+
+    <h1>Ferramenta Deep Learning</h1>
+    <p> We are using Node.js
+      <script>document.write(process.versions.node)</script>,
+      Chromium
+      <script>document.write(process.versions.chrome)</script>,
+      and Electron
+      <script>document.write(process.versions.electron)</script>.
+    </p>
+
+    <input id="texto" value="..."></input>
+    <div id="resultado_texto"></div>
+
+
+    <button id="entreno">Entrenar</button>
+    <div id="resultado_entreno"></div>
+
+    <button id="comunicacio">Comunicacion</button>
+
+    <div id="charts">
+      <canvas id="myChart"></canvas>
+    </div>
+
+    <div id="dataset">
+      <div id="train-div">
+        <table class="zui-table">
+            <tbody>
+                <tr>
+                    <th>
+                      <input type="text" id="train" class="basictxt" placeholder="Ruta ficheros entrenamiento...">
+                    </th>
+                    <th>
+                      <button id="directori-train"></button>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                      <input type="text" id="test" class="basictxt" placeholder="Ruta ficheros test...">
+                    <th>
+                      <button id="directori-test">aa</button>
+                    </th>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+      <label for="subject">Clases:</label>
+      <select id="subject">
+       <option value="1">General Inquiry</option>
+       <option value="2">Advertising</option>
+       <option value="3">Press</option>
+       <option value="5">Account Problems</option>
+       <option value="4">Content Submission</option>
+     </select>
+
+
+      <!-- DRAG&DROP -->
+      <div id="drag-file">
+          <p>Añadir imagenes al dataset</p>
+      </div>
+      <script>
+          (function () {
+              var holder = document.getElementById('drag-file');
+
+              holder.ondragover = () => {
+                  return false;
+              };
+              holder.ondragleave = () => {
+                  return false;
+              };
+              holder.ondragend = () => {
+                  return false;
+              };
+              holder.ondrop = (e) => {
+                  e.preventDefault();
+                  for (let f of e.dataTransfer.files) {
+                       //loadImage('/home/alejandro/Documentos/TFG/electron-python-example/pycalc/nnetworks/data/6051', 800, 800, '#some_target');
+
+                      //Cuan acabem de deixar el fitxer en l'area drag Enviem
+                      //un missatge que mes endavant establirem el servei corresponent
+                      document.getElementById("comunicacio").click();
+                      console.log('File(s) you dragged here: ', f.path)
+                  }
+                  return false;
+              };
+          })();
+      </script>
+      <button id="anadir">Añadir</button>
+
+      <!-- FALTA ACABAR LO de les IMATGES------------->
+      <script>
+        function loadImage(path, width, height, target) {
+          $('<img src="'+ path +'">').load(function() {
+            $(this).width(width).height(height).appendTo(target);
+          });
+         }
+      </script>
+}
+
+      <!------------------------->
+    </div>
+
+  </body>
+
+  <script>
+    require('./renderer.js')
+  </script>
+</html>
