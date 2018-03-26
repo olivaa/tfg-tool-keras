@@ -23,6 +23,7 @@ class TestCallback(keras.callbacks.Callback):
         self.test_data = test_data
 
     def on_epoch_end(self, epoch, logs={}):
+        print(logs)
         x, y = self.test_data
         loss, acc = self.model.evaluate(x, y, verbose=0)
         context = zmq.Context()
@@ -30,7 +31,7 @@ class TestCallback(keras.callbacks.Callback):
         worker.setsockopt(zmq.IDENTITY, b'usuari1')
         worker.connect("tcp://localhost:9001")
         start = False
-        dades={"accuracy":acc,"loss":loss}
+        dades={"accuracy":logs.get('acc'),"loss":logs.get('loss'),"val_acc":logs.get('val_acc'),"val_loss":logs.get('val_loss')}
         js=json.dumps(dades)
         worker.send_string(js)
         print('\nTesting loss: {}, acc: {}\n'.format(loss, acc))
@@ -80,7 +81,7 @@ model.add(Dense(2))
 model.add(Activation("softmax"))
 #entrenar con SGD (gradient descendent)
 sgd=SGD(lr=0.01)
-model.compile(loss="binary_crossentropy",optimizer=sgd,metrics=["accuracy"])
+model.compile(loss="binary_crossentropy",optimizer=sgd,metrics=["acc"])
 
 #entremamiento
 model.fit(trainData,trainLabels,callbacks=[TestCallback((trainData,trainLabels))],epochs=150,batch_size=120,verbose=1)

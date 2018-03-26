@@ -1,14 +1,40 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>TFG-Alejandro Oliva</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-  </head>
-  <body>
 
+<head>
+  <meta charset="UTF-8">
+  <title>TFG-Alejandro Oliva</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css" />
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+</head>
+
+<body>
+  <!-- jQuery version must be >= 1.8.0; -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <!-- A jQuery plugin that adds cross-browser mouse wheel support. (Optional) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.3.2/css/lightgallery.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.3.2/js/lightgallery.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lg-pager@1.0.2/dist/lg-pager.min.js"></script>
+
+
+  <!--**********************Menu***************************************-->
+  <main class="container">
+    <aside class="lateral">
+      <ul class="side-menu">
+        <li><a href="#" id="train-button"><br><span class="fa fa-code"></span>Entrenamiento</a></li>
+        <li><a href="#" id="dataset-button"><br><span class="fa fa-cog"></span>Dataset</a></li>
+        <li><a href="#" id="model-button"><br><span class="fa fa-font"></span>Arquitectura</a></li>
+        <li><a href="#" id="statistic-button"><br><span class="fa fa-caret-square-o-right"></span>Estadísticas</a></li>
+      </ul>
+    </aside>
+    <section class="content">
+      <!--***************************************************** -->
+
+      <!-- hola 2 y dades d'electon
     <h1>Ferramenta Deep Learning</h1>
     <p> We are using Node.js
       <script>document.write(process.versions.node)</script>,
@@ -21,99 +47,191 @@
     <input id="texto" value="..."></input>
     <div id="resultado_texto"></div>
 
+    -->
 
-    <button id="entreno">Entrenar</button>
-    <div id="resultado_entreno"></div>
 
-    <button id="comunicacio">Comunicacion</button>
 
-    <div id="charts">
-      <canvas id="myChart"></canvas>
-    </div>
-
-    <div id="dataset">
-      <div id="train-div">
-        <table class="zui-table">
+      <div id="train-sets">
+        <div id="train">
+          <table>
             <tbody>
+              <tr>
+                <th>
+                  <button id="entreno" class="btn-3">Entrenar</button>
+                  <div id="resultado_entreno"></div>
+                </th>
+                <th>
+                  <button id="comunicacio" class="btn-3">Comunicacion</button>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Grafiques -->
+          <div id="charts1">
+            <canvas id="train_acc_loss"></canvas>
+          </div>
+          <div id="charts2">
+            <canvas id="validation_acc_loss"></canvas>
+          </div>
+          <!-- *************************************************************** -->
+        </div>
+
+        <div id="dataset">
+          <div id="train-parameters">
+            <table>
+              <tbody>
                 <tr>
-                    <th>
-                      <input type="text" id="train" class="basictxt" placeholder="Ruta ficheros entrenamiento...">
-                    </th>
-                    <th>
-                      <button id="directori-train"></button>
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                      <input type="text" id="test" class="basictxt" placeholder="Ruta ficheros test...">
+                  <th>
+                    <input type="text" id="train" class="basictxt" placeholder="Ruta ficheros entrenamiento...">
+                  </th>
+                  <th>
+                    <button id="directori-train"></button>
+                  </th>
+                  <th>
+                    <input type="text" id="test" class="basictxt" placeholder="Ruta ficheros test...">
                     <th>
                       <button id="directori-test">aa</button>
                     </th>
                 </tr>
-            </tbody>
-          </table>
-        </div>
+                <tr>
+                </tr>
+              </tbody>
+            </table>
+
+            <label for="subject">Clases:</label>
+            <select id="subject">
+           <option value="1">General Inquiry</option>
+           <option value="2">Advertising</option>
+           <option value="3">Press</option>
+           <option value="5">Account Problems</option>
+           <option value="4">Content Submission</option>
+         </select>
 
 
-      <label for="subject">Clases:</label>
-      <select id="subject">
-       <option value="1">General Inquiry</option>
-       <option value="2">Advertising</option>
-       <option value="3">Press</option>
-       <option value="5">Account Problems</option>
-       <option value="4">Content Submission</option>
-     </select>
+            <!-- DRAG&DROP -->
+            <div id="drag-file">
+              <p>Añadir imagenes al dataset</p>
+            </div>
+            <script>
+              (function() {
+                var holder = document.getElementById('drag-file');
 
-
-      <!-- DRAG&DROP -->
-      <div id="drag-file">
-          <p>Añadir imagenes al dataset</p>
-      </div>
-      <script>
-          (function () {
-              var holder = document.getElementById('drag-file');
-
-              holder.ondragover = () => {
+                holder.ondragover = () => {
                   return false;
-              };
-              holder.ondragleave = () => {
+                };
+                holder.ondragleave = () => {
                   return false;
-              };
-              holder.ondragend = () => {
+                };
+                holder.ondragend = () => {
                   return false;
-              };
-              holder.ondrop = (e) => {
+                };
+                holder.ondrop = (e) => {
                   e.preventDefault();
                   for (let f of e.dataTransfer.files) {
-                       //loadImage('/home/alejandro/Documentos/TFG/electron-python-example/pycalc/nnetworks/data/6051', 800, 800, '#some_target');
+                    //loadImage('/home/alejandro/Documentos/TFG/electron-python-example/pycalc/nnetworks/data/6051', 800, 800, '#some_target');
 
-                      //Cuan acabem de deixar el fitxer en l'area drag Enviem
-                      //un missatge que mes endavant establirem el servei corresponent
-                      document.getElementById("comunicacio").click();
-                      console.log('File(s) you dragged here: ', f.path)
+                    //Cuan acabem de deixar el fitxer en l'area drag Enviem
+                    //un missatge que mes endavant establirem el servei corresponent
+                    document.getElementById("comunicacio").click();
+                    console.log('File(s) you dragged here: ', f.path)
                   }
                   return false;
-              };
-          })();
-      </script>
-      <button id="anadir">Añadir</button>
+                };
+              })();
+            </script>
+            <button id="anadir">Añadir</button>
+          </div>
 
-      <!-- FALTA ACABAR LO de les IMATGES------------->
-      <script>
-        function loadImage(path, width, height, target) {
-          $('<img src="'+ path +'">').load(function() {
-            $(this).width(width).height(height).appendTo(target);
-          });
-         }
-      </script>
-}
+          <!------------------------->
 
-      <!------------------------->
-    </div>
+          <!-- GALERIA D'IMATGES -->
+          <div id="gallery-train">
+            <div class="scrollbar" id="style-1">
+              <div class="force-overflow">
+                <div id="lightgallery">
+                  <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
+                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
+                </a>
+                  <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
+                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
+                </a>
+                  <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
+                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
+                </a>
+                  <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
+                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
+                </a>
+                  <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
+                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
+                </a>
+                  <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
+                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
+                </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!------------------------->
+      </div>
+    </section>
+  </main>
+</body>
 
-  </body>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#lightgallery").lightGallery({
+      thumbnail: true,
+      dynamicEl: [{
+        "src": '../static/img/1.jpg'
+      }, {
+        "src": '../static/img/1.jpg'
+      }, {
+        "src": '../static/img/1.jpg'
+      }, {
+        "src": '../static/img/1.jpg'
+      }, {
+        "src": '../static/img/1.jpg'
+      }, {
+        "src": '../static/img/1.jpg'
+      }, {
+        "src": '../static/img/1.jpg'
+      }, {
+        "src": '../static/img/1.jpg'
+      }]
+    });
+  });
+</script>
+<script>
+  $(document).ready(function() {
+    $("#train-button").click(function() {
+      $('#dataset').hide();
+      $('#gallery-train').hide();
+      $('#train').show();
+      console.log("entra al boto 1");
+    });
+  });
+  $(document).ready(function() {
+    $("#dataset-button").click(function() {
+      $('#train').hide();
+      $('#gallery-train').show();
+      $('#dataset').show();
+      console.log("entra al boto 2");
+    });
+  });
+  $(document).ready(function() {
+    $("#model-button").click(function() {
+      $('#dataset').hide();
+    });
+  });
+  $(document).ready(function() {
+    $("#statistic-button").click(function() {
+      $('#dataset').hide();
+    });
+  });
+</script>
+<script>
+  require('./renderer.js')
+</script>
 
-  <script>
-    require('./renderer.js')
-  </script>
 </html>
