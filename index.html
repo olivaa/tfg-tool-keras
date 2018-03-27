@@ -77,18 +77,26 @@
         </div>
 
         <div id="dataset">
+          <ul id="dataset-ul">
+            <a href="#">
+              <li id="dataset-li">Nuevo</li>
+            </a>
+            <a href="#">
+              <li id="dataset-li">Cargar</li>
+            </a>
+          </ul>
           <div id="train-parameters">
             <table>
               <tbody>
                 <tr>
                   <th>
-                    <input type="text" id="train" class="basictxt" placeholder="Ruta ficheros entrenamiento...">
+                    <input type="text" id="train-directory" class="basictxt" placeholder="Ruta ficheros entrenamiento...">
                   </th>
                   <th>
                     <button id="directori-train"></button>
                   </th>
                   <th>
-                    <input type="text" id="test" class="basictxt" placeholder="Ruta ficheros test...">
+                    <input type="text" id="test-directory" class="basictxt" placeholder="Ruta ficheros test...">
                     <th>
                       <button id="directori-test">aa</button>
                     </th>
@@ -97,8 +105,8 @@
                 </tr>
               </tbody>
             </table>
-
-            <label for="subject">Clases:</label>
+          <div id="select-images">
+            <label for="subject">Seleccionar clase:</label>
             <select id="subject">
            <option value="1">General Inquiry</option>
            <option value="2">Advertising</option>
@@ -139,7 +147,8 @@
                 };
               })();
             </script>
-            <button id="anadir">Añadir</button>
+            <button id="anadir" class="btn-3">Añadir</button>
+          </div>
           </div>
 
           <!------------------------->
@@ -170,8 +179,33 @@
                 </div>
               </div>
             </div>
+            <div class="scrollbar-2" id="style-1">
+              <div class="force-overflow">
+                <div id="lightgallery">
+                  <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
+                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
+                </a>
+                  <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
+                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
+                </a>
+                  <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
+                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
+                </a>
+                  <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
+                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
+                </a>
+                  <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
+                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
+                </a>
+                  <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
+                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
+                </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+
         <!------------------------->
       </div>
     </section>

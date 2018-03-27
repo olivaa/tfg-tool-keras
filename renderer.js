@@ -1,6 +1,9 @@
 //////////////////////////////configuracaió zerorpc/////////////////////////////
 const zerorpc = require("zerorpc")
 let client = new zerorpc.Client()
+//var fs = require('fs');
+//fs.mkdir('./carpeta');
+
 ////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////configuració zmq////////////////////////////////////
@@ -28,7 +31,7 @@ requester.on('message', function (msg) {
       addLabel(train_chart,lab_epoch);
       addData(train_chart,obj_chart_data.accuracy,"Accuracy")
       addData(train_chart,obj_chart_data.loss,"Loss")
-      
+
       addLabel(validation_chart,lab_epoch);
       addData(validation_chart,obj_chart_data.val_acc,"Validation Accuracy")
       addData(validation_chart,obj_chart_data.val_loss,"Validation Loss")
@@ -115,7 +118,7 @@ directoris.addEventListener('click', () => {
 
 
 ///////////////////Event per seleccionar ruta entrenamiento///////////////
-let textoTrain = document.querySelector('#train')
+let textoTrain = document.querySelector('#train-directory')
 let directoriTrain = document.querySelector('#directori-train')
 directoriTrain.addEventListener('click', () => {
   const directory = dialog.showOpenDialog({
@@ -131,7 +134,7 @@ directoriTrain.addEventListener('click', () => {
 
 
 ///////////////////Event per seleccionar ruta entrenamiento///////////////
-let textoTest = document.querySelector('#test')
+let textoTest = document.querySelector('#test-directory')
 let directoriTest = document.querySelector('#directori-test')
 directoriTest.addEventListener('click', () => {
   const directory = dialog.showOpenDialog({
@@ -140,7 +143,7 @@ directoriTest.addEventListener('click', () => {
     if (directory) {
         textoTest.value = directory[0]
         data["rutaTest"]=directory[0]
-        console.log(directory)
+        console.log(directory[0])
 
     }
 })

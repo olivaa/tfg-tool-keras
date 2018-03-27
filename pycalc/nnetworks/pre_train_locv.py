@@ -19,7 +19,6 @@ class TestCallback(keras.callbacks.Callback):
     def on_epoch_end(self, epoch, logs={}):
         x, y = self.test_data
         loss, acc = self.model.evaluate(x, y, verbose=0)
-        print(logs)
         context = zmq.Context()
         worker = context.socket(zmq.DEALER)
         worker.setsockopt(zmq.IDENTITY, b'usuari1')
@@ -103,7 +102,7 @@ model.compile(optimizer=optimizers.RMSprop(lr=2e-4),
 
 history = model.fit(train_features,
                     train_labels,
-                    epochs=50,
+                    epochs=12,
                     batch_size=batch_size,
                     callbacks=[TestCallback((train_features,train_labels))],
                     validation_data=(validation_features,validation_labels))
