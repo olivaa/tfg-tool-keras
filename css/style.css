@@ -32,6 +32,12 @@ img#img-thumb{
   height: 100px;
 }
 
+a#new-dataset-button {
+    background-color: #2a2c2d;
+}
+a#load-dataset-button {
+    background-color: #2a2c2d;
+}
 /* form styles */
 .basictxt {
   display: block;
@@ -71,6 +77,7 @@ div#charts2 {
 }
 div#dataset{
   display: none;
+  margin-top: 5%;
 }
 
 /**********Estil botons***************/
@@ -264,19 +271,19 @@ div#dataset{
   margin: 0;
   padding: 0;
   height: 100%;
-  width: 200px;
+  width: 13%;
   list-style-type: none;
-  background: rgb(63, 66, 78);
+  background: #1a1c1d;
   overflow: hidden;
   transition: width .5s;
 }
 
 .side-menu:hover {
-  width: 200px;
+  width: 13%;
 }
 
 .side-menu li {
-  width: 300px;
+  width: 100%;
 }
 
 .side-menu li span {
@@ -296,7 +303,7 @@ section.content {
 }
 .side-menu li a:hover,
 .side-menu li:first-child a {
-  background: #61906d;
+  background: #1f504e;
   display: block;
 }
 /*************************************/

@@ -73,6 +73,7 @@ let mainWindow = null
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow.maximize();
   mainWindow.loadURL(require('url').format({
     pathname: path.join(__dirname, 'index.html'),
     protocol: 'file:',

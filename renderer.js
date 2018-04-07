@@ -104,6 +104,32 @@ entreno.addEventListener('click', () => {
 })
 ////////////////////////////////////////////////////////////////////////////////
 
+
+///////////////////Event per crear tabs amb numero de clases x//////////////////
+let num_classes = document.querySelector('#number-of-classes')
+let r_classes=document.querySelector('#input-classes')
+num_classes.addEventListener('click', () => {
+  /*
+  *Agafem el numero introduit en el input de clases y creem aquest numero de
+  *tabs. A cada tab li ficarem un identificador diferent.
+  */
+  var id_class="classes";
+  for (i = 0; i < r_classes.value; i++) {
+    if(i===0){
+      $( "#tab-default" ).remove();
+      $("<li class='tab text-white'><a href='#"+id_class+i+"'> "+id_class+i+" </a></li>").appendTo("#tab-classes");
+      $("<div id='"+id_class+i+"' class='col s12' style='display:none;'><p>Test"+i+"</p></div>").appendTo("#principal-tab-classes");
+    }else{
+
+      $("<li class='tab text-white'><a href='#"+id_class+i+"' > "+id_class+i+"</a></li>").appendTo("#tab-classes");
+        $("<div id='"+id_class+i+"' class='col s12' style='display:none;'><p>Test"+i+"</p></div>").appendTo("#principal-tab-classes");
+    }
+  }
+})
+////////////////////////////////////////////////////////////////////////////////
+
+
+
 ///////////////////Event per obrir directoris y multiples fitxers///////////////
 /*let directoris = document.querySelector('#directori')
 directoris.addEventListener('click', () => {
@@ -183,7 +209,6 @@ var train_chart = new Chart(acc_loss, {
             data: data_charts_loss,
         }]
     },
-
     // Configuration options go here
     options: {}
 });
@@ -212,7 +237,11 @@ var validation_chart = new Chart(valacc_valloss, {
     },
 
     // Configuration options go here
-    options: {}
+    options: {legend: {
+       labels: {
+         fontColor: '#ffffff'
+      }
+   }}
 });
 ////////////////////////////////////////////////////////////////////////////////
 

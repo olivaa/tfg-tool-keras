@@ -17,6 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "chart.js": "^2.7.2",
+    "crop-select-js": "^1.0.1",
     "lg-autoplay": "^1.0.4",
     "lg-fullscreen": "^1.0.1",
     "lg-hash": "^1.0.4",

@@ -39,14 +39,14 @@ vgg_conv = VGG16(weights='imagenet',
 train_dir = './pycalc/nnetworks/data-tomates/train'
 validation_dir = './pycalc/nnetworks/data-tomates/validation'
 
-nTrain = 3730
-nVal = 1120
+nTrain = 9524
+nVal = 2304
 
 datagen = ImageDataGenerator(rescale=1./255)
 batch_size = 10
 
 train_features = np.zeros(shape=(nTrain, 7, 7, 512))
-train_labels = np.zeros(shape=(nTrain,4))
+train_labels = np.zeros(shape=(nTrain,8))
 
 train_generator = datagen.flow_from_directory(
     train_dir,
@@ -67,7 +67,7 @@ for inputs_batch, labels_batch in train_generator:
 train_features = np.reshape(train_features, (nTrain, 7 * 7 * 512))
 
 validation_features = np.zeros(shape=(nVal, 7, 7, 512))
-validation_labels = np.zeros(shape=(nVal,4))
+validation_labels = np.zeros(shape=(nVal,8))
 
 validation_generator = datagen.flow_from_directory(
     validation_dir,
@@ -94,7 +94,7 @@ from keras import optimizers
 model = models.Sequential()
 model.add(layers.Dense(512, activation='relu', input_dim=7 * 7 * 512))
 model.add(layers.Dropout(0.5))
-model.add(layers.Dense(4, activation='softmax'))
+model.add(layers.Dense(8, activation='softmax'))
 
 model.compile(optimizer=optimizers.RMSprop(lr=2e-4),
               loss='categorical_crossentropy',
