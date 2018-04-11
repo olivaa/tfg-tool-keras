@@ -32,6 +32,7 @@
       $('#dataset').hide();
       $('#gallery-train').hide();
       $('#train').show();
+      $('#load-dataset').hide();
       console.log("entra al boto 1");
     });
   });
@@ -52,6 +53,16 @@
       $('#train').hide();
       $('#gallery-train').show();
       $('#dataset').show();
+      $('#load-dataset').hide();
+      console.log("entra al boto 2");
+    });
+  });
+  $(document).ready(function() {
+    $("#load-dataset-button").click(function() {
+      $('#train').hide();
+      $('#gallery-train').hide();
+      $('#dataset').hide();
+      $('#load-dataset').show();
       console.log("entra al boto 2");
     });
   });
@@ -69,4 +80,7 @@
 
   $(document).ready(function() {
     $('.tabs').tabs();
+  });
+  $(document).ready(function(){
+    $('.modal').modal();
   });

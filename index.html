@@ -77,7 +77,7 @@
           <div id="train-parameters">
             <div class="row">
               <div class="col s4">
-                <input type="text" id="train-directory" class="basictxt white-text" placeholder="Ruta ficheros entrenamiento...">
+                <input disabled type="text" id="train-directory" class="basictxt white-text" placeholder="Train directory...">
               </div>
               <div class="col s2">
                 <div class="btn waves-effect waves-light" id="directori-train" style="width: 100%;">
@@ -85,7 +85,7 @@
                 </div>
               </div>
               <div class="col s4">
-                <input type="text" id="test-directory" class="basictxt white-text" placeholder="Ruta ficheros test...">
+                <input disabled type="text" id="test-directory" class="basictxt white-text" placeholder="Test directory...">
               </div>
 
               <div class="col s2">
@@ -119,49 +119,15 @@
                 </div>
               </div>
               <div class="col s6">
-                <div class="btn waves-effect  waves-light  green lighten-2" id="save-dataset" style="width: 100%;">
+                <a class="btn waves-effect  waves-light  green lighten-2  modal-trigger" id="save-dataset" href="#modal-save" style="width: 100%;">
                   <i class="material-icons right">save</i>
                   <span>Save dataset</span>
-                </div>
+                </a>
               </div>
 
             </div>
 
-
-
-
-
             <div id="select-images">
-
-              <!-- DRAG&DROP
-              <script>
-                (function() {
-                  var holder = document.getElementById('drag-file');
-
-                  holder.ondragover = () => {
-                    return false;
-                  };
-                  holder.ondragleave = () => {
-                    return false;
-                  };
-                  holder.ondragend = () => {
-                    return false;
-                  };
-                  holder.ondrop = (e) => {
-                    e.preventDefault();
-                    for (let f of e.dataTransfer.files) {
-                      //loadImage('/home/alejandro/Documentos/TFG/electron-python-example/pycalc/nnetworks/data/6051', 800, 800, '#some_target');
-
-                      //Cuan acabem de deixar el fitxer en l'area drag Enviem
-                      //un missatge que mes endavant establirem el servei corresponent
-                      document.getElementById("comunicacio").click();
-                      console.log('File(s) you dragged here: ', f.path)
-                    }
-                    return false;
-                  };
-                })();
-              </script>
-              -->
             </div>
           </div>
 
@@ -221,10 +187,49 @@
         </div>
         <!-- ***********************Fi nuevo dataset***************************** -->
 
+        <!-- ***********************Cargar dataset***************************** -->
+        <div id="load-dataset">
+          <div class="row" style="margin-top:3%">
+            <div class="col s4">
+              <input disabled type="text" id="train-directory" class="basictxt white-text" placeholder="Select file dataset...">
+            </div>
+            <div class="col s2">
+              <div class="btn waves-effect waves-light" id="file-load-dataset" style="width: 100%;">
+                <span>File</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ***********************Fi cargar dataset***************************** -->
+
         <!------------------------->
       </div>
     </div>
   </div>
+  <!--Modal guardar dades d'un nou dataset-->
+  <!-- Modal Structure -->
+  <div id="modal-save" class="modal">
+    <div class="modal-content">
+      <h4>SAVE YOUR DATASET</h4>
+      <div class="input-field col s6">
+        <input placeholder="Dataset Name" id="dataset_name" type="text" class="validate">
+        <label for="first_name"></label>
+      </div>
+      <div class="col s6">
+        <input disabled type="text" id="directori-dataset-json-input" class="basictxt black-text" placeholder="Test directory...">
+      </div>
+      <div class="col s6">
+        <div class="btn waves-effect waves-light" id="directori-dataset-json" style="width: 100%;">
+          <span>Select Directory</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Save</a>
+    </div>
+  </div>
+
+
 </body>
 
 <!--Carregem els js per optimizar la carrega -->
@@ -247,7 +252,9 @@
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script src="js/init.js"></script>
 <script>
-  require('./renderer.js')
+  require('./js/renderer.js')
+  require('./js/n_dataset.js')
+  require('./js/l_dataset.js')
 </script>
 
 </html>
