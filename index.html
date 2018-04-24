@@ -42,193 +42,222 @@
                  </select>
                 <label>Select Model</label>
               </div>
-              <button id="comunicacio" class="btn-3">Comunicacion</button>
+
             </div>
 
             <div class="col s6" style="margin-top:4%;">
               <input type="text" id="select-dataset" class="white-text file-path validate" placeholder="Select dataset file...">
-              <button id="entreno" class="btn-3">Entrenar</button>
-              <div id="resultado_entreno"></div>
             </div>
+          </div>
+          <div class="row">
 
-            <div class="row">
-              <div class="input-field col s2">
-                <input placeholder="0" id="first_name" type="text" class="validate">
-                <label for="first_name">Epochs</label>
-              </div>
-              <div class="input-field col s2">
-                <input placeholder="0" id="last_name" type="text" class="validate">
-                <label for="last_name">Batch Size</label>
-              </div>
+            <div class="input-field col s2">
+              <input placeholder="0" id="epochs-train" type="text" class="validate">
+              <label for="first_name">Epochs</label>
+            </div>
+            <div class="input-field col s2">
+              <input placeholder="0" id="batch-train" type="text" class="validate">
+              <label for="last_name">Batch Size</label>
+            </div>
+            <div class="input-field col s2">
               <a class="btn-floating btn-small waves-effect waves-light blue modal-trigger" href="#modalInfo" style="margin-top:1%;"><i class="material-icons">help</i></a>
             </div>
-            <div class="row">
-              <div class="col s6">
-                <div class="card-panel teal" id="panel-dataset-train">
-                  <span class="white-text">
-                  </span>
-                </div>
-              </div>
-              <div class="col s6">
-                <div class="card-panel teal" id="panel-model-train">
-                  <span class="white-text">
-                  </span>
-                </div>
-              </div>
+            <div class="input-field col s2">
+              <input disabled placeholder="0" id="train-images" type="text" class="validate">
+              <label for="train-images" class="white-text">Train Images</label>
+            </div>
+            <div class="input-field col s2">
+              <input disabled placeholder="0" id="validation-images" type="text" class="validate">
+              <label for="validation-images" class="white-text">Validation Images</label>
             </div>
           </div>
-          <!-- Grafiques -->
+
           <div class="row">
-            <div class="col s6" id="charts1">
-              <canvas id="train_acc_loss"></canvas>
-            </div>
-            <div class="col s6" id="charts2">
-              <canvas id="validation_acc_loss"></canvas>
-            </div>
-          </div>
-          <div id="crop-select"></div>
-          <!-- *************************************************************** -->
-        </div>
-
-        <!-- Pantalla Nuevo DataSet -->
-        <div id="dataset">
-          <div id="train-parameters">
-            <div class="row">
-              <div class="col s4">
-                <input disabled type="text" id="train-directory" class="basictxt white-text" placeholder="Train directory...">
-              </div>
-              <div class="col s2">
-                <div class="btn waves-effect waves-light" id="directori-train" style="width: 100%;">
-                  <span>Train Directory</span>
-                </div>
-              </div>
-              <div class="col s4">
-                <input disabled type="text" id="test-directory" class="basictxt white-text" placeholder="Test directory...">
-              </div>
-
-              <div class="col s2">
-                <div class="btn waves-effect waves-light" id="directori-test" style="width: 100%;">
-                  <span>Validantion Directory</span>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col s4">
-                <input type="number" id="input-classes" class="basictxt white-text" placeholder="Number of classes">
-              </div>
-              <div class="col s2">
-                <div class="btn waves-effect waves-light" id="number-of-classes" style="width: 100%;">
-                  <span>Accept</span>
-                </div>
-              </div>
-            </div>
-            <div class="row" id="principal-tab-classes">
-              <div class="col s12">
-                <ul class="tabs tabs-fixed-width tab-demo transparent z-depth-1" id="tab-classes">
-                  <li class='tab text-white' id="tab-default"><a href='#'>Default</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col s6">
-                <div class="btn waves-effect waves-light red lighten-2" id="reset-dataset" style="width: 100%;">
-                  <i class="material-icons right">save</i>
-                  <span>Reset dataset</span>
-                </div>
-              </div>
-              <div class="col s6">
-                <a class="btn waves-effect  waves-light  green lighten-2  modal-trigger" id="save-dataset" href="#modal-save" style="width: 100%;">
-                  <i class="material-icons right">save</i>
-                  <span>Save dataset</span>
-                </a>
-              </div>
-
+            <div class="col s6">
+              <button id="entreno" class="btn waves-effect waves-light blue col s12">Train</button>
             </div>
 
-            <div id="select-images">
-            </div>
-          </div>
-          <!------------------------->
-
-          <!-- GALERIA D'IMATGES -->
-          <div id="gallery-train">
-            <div class="scrollbar" id="style-1">
-              <div class="force-overflow">
-                <div id="lightgallery">
-                  <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
-                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
-                </a>
-                  <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
-                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
-                </a>
-                  <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
-                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
-                </a>
-                  <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
-                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
-                </a>
-                  <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
-                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
-                </a>
-                  <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
-                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
-                </a>
-                </div>
-              </div>
-            </div>
-            <div class="scrollbar-2" id="style-1">
-              <div class="force-overflow">
-                <div id="lightgallery">
-                  <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
-                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
-                </a>
-                  <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
-                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
-                </a>
-                  <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
-                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
-                </a>
-                  <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
-                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
-                </a>
-                  <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
-                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
-                </a>
-                  <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
-                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
-                </a>
-                </div>
-              </div>
+            <div id="resultado_entreno"></div>
+            <div class="col s6">
+              <button disabled id="comunicacio" class="btn waves-effect waves-light blue col s12">Save Result</button>
             </div>
           </div>
         </div>
-        <!-- ***********************Fi nuevo dataset***************************** -->
 
-        <!-- ***********************Cargar dataset***************************** -->
-        <div id="load-dataset">
-          <div class="row" style="margin-top:3%">
+        <div class="row">
+          <div class="col s12">
+            <div class="card-panel teal lighten-2" id="panel-dataset-train" style="height:150px;">
+              <span class="white-text">
+                <div class="col s1">
+                  <h6 class="white-text">Time training</h6>
+                </div>
+                <div class="col s1">
+                  <h6 class="white-text" id="crono">00:00:00</h6>
+                </div>
+                <div class="col s1">
+                  <h6 class="white-text">Epochs</h6>
+                </div>
+                <div class="col s1">
+                  <h6 class="white-text" id="actual-epoch">0</h6>
+                </div>
+              </span>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Grafiques -->
+        <div class="row">
+          <div class="col s6" id="charts1">
+            <canvas id="train_acc_loss"></canvas>
+          </div>
+          <div class="col s6" id="charts2">
+            <canvas id="validation_acc_loss"></canvas>
+          </div>
+        </div>
+        <div id="crop-select"></div>
+        <!-- *************************************************************** -->
+      </div>
+
+      <!-- Pantalla Nuevo DataSet -->
+      <div id="dataset">
+        <div id="train-parameters">
+          <div class="row">
             <div class="col s4">
-              <input disabled type="text" id="train-directory" class="basictxt white-text" placeholder="Select file dataset...">
+              <input disabled type="text" id="train-directory" class="basictxt white-text" placeholder="Train directory...">
             </div>
             <div class="col s2">
-              <div class="btn waves-effect waves-light" id="get-json-dataset" style="width: 100%;">
-                <span>File</span>
+              <div class="btn waves-effect waves-light" id="directori-train" style="width: 100%;">
+                <span>Train Directory</span>
+              </div>
+            </div>
+            <div class="col s4">
+              <input disabled type="text" id="test-directory" class="basictxt white-text" placeholder="Test directory...">
+            </div>
+
+            <div class="col s2">
+              <div class="btn waves-effect waves-light" id="directori-test" style="width: 100%;">
+                <span>Validantion Directory</span>
               </div>
             </div>
           </div>
-          <div class="row" id="load-principal-tab-classes">
+          <div class="row">
+            <div class="col s4">
+              <input type="number" id="input-classes" class="basictxt white-text" placeholder="Number of classes">
+            </div>
+            <div class="col s2">
+              <div class="btn waves-effect waves-light" id="number-of-classes" style="width: 100%;">
+                <span>Accept</span>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="principal-tab-classes">
             <div class="col s12">
-              <ul class="tabs tabs-fixed-width tab-demo transparent z-depth-1" id="load-tab-classes">
-                <li class='tab text-white' id="load-tab-default"><a href='#'>Default</a></li>
+              <ul class="tabs tabs-fixed-width tab-demo transparent z-depth-1" id="tab-classes">
+                <li class='tab text-white' id="tab-default"><a href='#'>Default</a></li>
               </ul>
             </div>
           </div>
-        </div>
-        <!-- ***********************Fi cargar dataset***************************** -->
+          <div class="row">
+            <div class="col s6">
+              <div class="btn waves-effect waves-light red lighten-2" id="reset-dataset" style="width: 100%;">
+                <i class="material-icons right">save</i>
+                <span>Reset dataset</span>
+              </div>
+            </div>
+            <div class="col s6">
+              <a class="btn waves-effect  waves-light  modal-trigger blue" id="save-dataset" href="#modal-save" style="width: 100%;">
+                  <i class="material-icons right">save</i>
+                  <span>Save dataset</span>
+                </a>
+            </div>
 
+          </div>
+
+          <div id="select-images">
+          </div>
+        </div>
         <!------------------------->
+
+        <!-- GALERIA D'IMATGES -->
+        <div id="gallery-train">
+          <div class="scrollbar" id="style-1">
+            <div class="force-overflow">
+              <div id="lightgallery">
+                <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
+                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
+                </a>
+                <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
+                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
+                </a>
+                <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
+                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
+                </a>
+                <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
+                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
+                </a>
+                <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
+                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
+                </a>
+                <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
+                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="scrollbar-2" id="style-1">
+            <div class="force-overflow">
+              <div id="lightgallery">
+                <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
+                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
+                </a>
+                <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
+                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
+                </a>
+                <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
+                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
+                </a>
+                <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
+                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
+                </a>
+                <a href="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg">
+                    <img id="img-thumb" src="pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg" />
+                </a>
+                <a href="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg">
+                    <img  id="img-thumb"src="pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+      <!-- ***********************Fi nuevo dataset***************************** -->
+
+      <!-- ***********************Cargar dataset***************************** -->
+      <div id="load-dataset">
+        <div class="row" style="margin-top:3%">
+          <div class="col s4">
+            <input disabled type="text" id="train-directory" class="basictxt white-text" placeholder="Select file dataset...">
+          </div>
+          <div class="col s2">
+            <div class="btn waves-effect waves-light" id="get-json-dataset" style="width: 100%;">
+              <span>File</span>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="load-principal-tab-classes">
+          <div class="col s12">
+            <ul class="tabs tabs-fixed-width tab-demo transparent z-depth-1" id="load-tab-classes">
+              <li class='tab text-white' id="load-tab-default"><a href='#'>Default</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- ***********************Fi cargar dataset***************************** -->
+
+      <!------------------------->
     </div>
+  </div>
   </div>
   <!--Modal guardar dades d'un nou dataset-->
   <!-- Modal Structure -->
@@ -260,6 +289,17 @@
       <li><strong>Epochs</strong>: Integer. Number of epochs to train the model. An epoch is an iteration over the entire <code>x</code> and <code>y</code> data provided. Note that in conjunction with <code>initial_epoch</code>,
         <code>epochs</code> is to be understood as "final epoch". The model is not trained for a number of iterations given by <code>epochs</code>, but merely until the epoch of index <code>epochs</code> is reached.</li>
       <li><strong>Batch size</strong>: Integer or <code>None</code>. Number of samples per gradient update. If unspecified, it will default to 32.</li>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+
+  <a class="modal-trigger" href="#modalError" style="margin-top:1%;"></a>
+  <div id="modalError" class="modal">
+    <div class="modal-content">
+      <h4>Complete fields  <i class="material-icons">error_outline</i></h4>
+      <li>There are missing fields to complete. Please, complete all the fields to start the training.</li>
     </div>
     <div class="modal-footer">
       <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>

@@ -4,6 +4,8 @@ let client = new zerorpc.Client()
 var fs = require('fs');
 var fsr = require('fs-extra');
 const path = require('path');
+var Timer = require('easytimer')
+var timer = new Timer()
 
 
 
@@ -13,31 +15,43 @@ const path = require('path');
 /**
  * Enviem un misatge per establir conexion que despres replicarem cada vegada
  * que recibim un mistage del servidor
- * Quan recibim un missate de moment sol agafem les dades del entrenamiento
+ * Quan recibim un missate de moment sol agafem les dades del entrenament
  * de acc i loss pero deuriem crear una estructura per tractar el tipus de dades
+ *Tambe arreplegem per la iteració en la que es troba l'entrenament per poder parar el temps
  */
 let zmq = require('zeromq'),
   requester = zmq.socket('req');
+let total_epoch = document.querySelector('#epochs-train')
 var router = 'tcp://127.0.0.1:4244';
 requester.identity = "usuari1";
 requester.connect(router);
 requester.send("Establint conexió");
 console.log('Conexió realitzada');
 requester.on('message', function(msg) {
-  var message = msg.toString();
-  //console.log('Mensaje', message);
-  var obj_chart_data = JSON.parse(message);
+  let message = msg.toString();
+  let obj_chart_data = JSON.parse(message);
+  console.log(obj_chart_data);
   console.log('Mensaje', obj_chart_data.accuracy);
   console.log('Mensaje', obj_chart_data.loss);
+  let actual_epoch = obj_chart_data.epoch + 1
   epochs_chart += 1
-  var lab_epoch = 'iter' + epochs_chart
+  let lab_epoch = 'iter' + epochs_chart
   addLabel(train_chart, lab_epoch);
   addData(train_chart, obj_chart_data.accuracy, "Accuracy")
   addData(train_chart, obj_chart_data.loss, "Loss")
-
   addLabel(validation_chart, lab_epoch);
   addData(validation_chart, obj_chart_data.val_acc, "Validation Accuracy")
   addData(validation_chart, obj_chart_data.val_loss, "Validation Loss")
+  //Actualizem la iteracio actual
+  console.log("total epoques " + total_epoch.value)
+  console.log("epoca actual epoques " + actual_epoch)
+  console.log(total_epoch.value == actual_epoch)
+
+  $('#actual-epoch').html(actual_epoch + "/" + total_epoch.value);
+  //Si es la útlima iteració parem el crono
+  if (total_epoch.value-1 == actual_epoch) {
+    timer.stop();
+  }
   requester.send("disponible");
 });
 ////////////////////////////////////////////////////////////////////////////
@@ -81,7 +95,11 @@ var actual_class = ""
 var data = {
   train_dir: "",
   validation_dir: "",
-  model: ""
+  model: "",
+  epochs: 0,
+  batch_size: 0,
+  train_img: 0,
+  validation_img: 0
 };
 var epochs_chart = 0;
 var data_charts_acc = []
@@ -124,28 +142,41 @@ let entreno = document.querySelector('#entreno')
 entreno.addEventListener('click', () => {
 
   let directoriDataset = document.querySelector('#select-dataset')
-  let model=""
+  let model = ""
+  let epochs = document.querySelector('#epochs-train')
+  let batch_size = document.querySelector('#batch-train')
+  let train_img = document.querySelector('#train-images')
+  let validation_img = document.querySelector('#validation-images')
   $("#select-model option:selected").each(function() {
     model += $(this).text();
   });
-  if (directoriDataset !== "") {
+  //console.log(directoriDataset.value+";"+model.value+";"epochs.value+";"+batch_size.value)
+  if (directoriDataset.value !== "" && model.value !== "" && epochs.value !== 0 && batch_size.value !== 0) {
 
-    //model y directoris
+    //model, directoris, epochs, batch_size
     let dades_dataset = JSON.parse(fs.readFileSync(directoriDataset.value, 'utf8'));
     data["train_dir"] = dades_dataset["train_dir"]
     data["validation_dir"] = dades_dataset["validation_dir"];
-    data["model"]=model
+    data["model"] = model
+    data["epochs"] = epochs.value
+    data["batch_size"] = batch_size.value
+    data["train_img"] = train_img.value
+    data["validation_img"] = validation_img.value
     //llança la tasca d'entrenament amb els arguments corresponents a rutes y model
     client.invoke("entrenar", data, (error, res) => {
       if (error) {
         console.error(error)
       } else {
+        timer.start()
         console.log("alla vá")
         train_chart.reset();
         data_charts = []
         //resultado_texto.textContent = res
       }
     })
+  } else {
+    console.log("entra")
+    $('#modalError').modal('open');
   }
 })
 ////////////////////////////////////////////////////////////////////////////////
@@ -243,6 +274,11 @@ function addLabel(chart, label) {
 }
 ////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////Actualització crono/////////////////////////////////////
+timer.addEventListener('secondsUpdated', function(e) {
+  $('#crono').html(timer.getTimeValues().toString());
+});
+////////////////////////////////////////////////////////////////////////////////
 
 
 //directoris.dispatchEvent(new Event('button'))

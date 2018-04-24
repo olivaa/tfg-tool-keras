@@ -25,11 +25,11 @@ vgg_conv = VGG16(weights='imagenet',
                   input_shape=(224, 224, 3))
 
 
-nTrain = 2000
-nVal = 806
+nTrain = int(sys.argv[6])
+nVal = int(sys.argv[7])
 
 datagen = ImageDataGenerator(rescale=1./255)
-batch_size = 50
+batch_size = int(sys.argv[5])
 
 train_features = np.zeros(shape=(nTrain, 7, 7, 512))
 train_labels = np.zeros(shape=(nTrain,2))
@@ -79,9 +79,9 @@ model=models.create_model()
 
 history = model.fit(train_features,
                     train_labels,
-                    epochs=120,
+                    epochs=int(sys.argv[4]),
                     batch_size=batch_size,
-                    callbacks=[c.TestCallback((train_features,train_labels))],
+                    callbacks=[c.TestCallback((train_features,train_labels,int(sys.argv[4])))],
                     validation_data=(validation_features,validation_labels))
 
 fnames = validation_generator.filenames

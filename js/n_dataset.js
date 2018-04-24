@@ -1,7 +1,7 @@
 var fs = require('fs');
 var fsr = require('fs-extra');
 const path = require('path');
-
+var recursive = require("recursive-readdir-synchronous");
 ///////////////////Dependencias per accedir a l'explorador d'arxius/////////////
 const {
   remote
@@ -18,6 +18,7 @@ var validation_directory = ""
 var dataset_name = ""
 //variable per agafar dimensio de la primera imatge
 var first_image = 0
+var tab_class=""
 
 var dades_dataset = {
   name: dataset_name,
@@ -73,8 +74,8 @@ num_classes.addEventListener('click', () => {
       $('<div class="col s6"> <div class="btn waves-effect waves-light" id="set-validation-images" style="width: 100%;"><i class="material-icons right">file_upload</i> <span>Add Validation Images</span> </div></div>').appendTo("#set-img-" + id_class + i);
       $('<div class="row" id="delete-img-' + id_class + i + '"> <div class="col s6"><div class="btn waves-effect waves-light red lighten-1" id="delete-train-images" style="width: 100%;"><i class="material-icons right">delete</i> <span>Delete Train Images</span> </div><div> </div>').appendTo("#" + id_class + i);
       $('<div class="col s6"> <div class="btn waves-effect waves-light red lighten-1" id="delete-validation-images" style="width: 100%;"><i class="material-icons right">delete</i> <span>Delete Validation Images</span> </div></div>').appendTo("#delete-img-" + id_class + i);
-      $('<div class="row" id="info-data-' + id_class + i + '"> <div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Train info.</span> <p>Number of train images: 400 </p><p>Directory: ' + dades_dataset["train_dir"] + '/' + id_class + i + '</p></div></div></div> ').appendTo("#" + id_class + i);
-      $('<div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Validation info.</span> <p>Number of validation images: 400</p> <p>Directory: ' + dades_dataset["validation_dir"] + '/' + id_class + i + '</p> </div> </div> </div> </div>').appendTo("#info-data-" + id_class + i);
+      $('<div class="row" id="info-data-' + id_class + i + '"> <div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Train info.</span> <p  id="new-num-train-img'+ id_class + i +'">Number of train images: 0 </p><p>Directory: ' + dades_dataset["train_dir"] + '/' + id_class + i + '</p></div></div></div> ').appendTo("#" + id_class + i);
+      $('<div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Validation info.</span> <p id="new-num-validation-img'+ id_class + i +'">Number of validation images: 0</p> <p>Directory: ' + dades_dataset["validation_dir"] + '/' + id_class + i + '</p> </div> </div> </div> </div>').appendTo("#info-data-" + id_class + i);
       $('<div class="row"> <div class="col s3 offset-s6"><div class="btn waves-effect waves-light green lighten-2" id="set-class"  style="width: 100%;"  value="' + id_class + i + '"><i class="material-icons right">check</i><span>Save Class</span> </div></div><div class="col s3"><div class="btn waves-effect waves-light red lighten-2" id="set-class" style="width: 100%;"><i class="material-icons right">clear</i><span>Delete Class</span> </div><div></div>').appendTo("#" + id_class + i);
       $("</form>");
     } else {
@@ -87,8 +88,8 @@ num_classes.addEventListener('click', () => {
       $('<div class="col s6"> <div class="btn waves-effect waves-light" id="set-validation-images" style="width: 100%;"><i class="material-icons right">file_upload</i> <span>Add Validation Images</span> </div></div>').appendTo("#set-img-" + id_class + i);
       $('<div class="row" id="delete-img-' + id_class + i + '"> <div class="col s6"><div class="btn waves-effect waves-light red lighten-1" id="delete-train-images" style="width: 100%;"><i class="material-icons right">delete</i> <span>Delete Train Images</span> </div><div> </div>').appendTo("#" + id_class + i);
       $('<div class="col s6"> <div class="btn waves-effect waves-light red lighten-1" id="delete-validation-images" style="width: 100%;"><i class="material-icons right">delete</i> <span>Delete Validation Images</span> </div></div>').appendTo("#delete-img-" + id_class + i);
-      $('<div class="row" id="info-data-' + id_class + i + '"> <div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Train info.</span> <p>Number of train images: 400 </p><p>Directory: ' + dades_dataset["train_dir"] + '/' + id_class + i + '</p></div></div></div> ').appendTo("#" + id_class + i);
-      $('<div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Validation info.</span> <p>Number of validation images: 400</p> <p>Directory: ' + dades_dataset["validation_dir"] + '/' + id_class + i + '</p> </div> </div> </div> </div>').appendTo("#info-data-" + id_class + i);
+      $('<div class="row" id="info-data-' + id_class + i + '"> <div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Train info.</span> <p  id="new-num-train-img'+ id_class + i +'">Number of train images: 0 </p><p>Directory: ' + dades_dataset["train_dir"] + '/' + id_class + i + '</p></div></div></div> ').appendTo("#" + id_class + i);
+      $('<div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Validation info.</span> <p  id="new-num-validation-img'+ id_class + i +'">Number of validation images: 0</p> <p>Directory: ' + dades_dataset["validation_dir"] + '/' + id_class + i + '</p> </div> </div> </div> </div>').appendTo("#info-data-" + id_class + i);
       $('<div class="row"> <div class="col s3 offset-s6"><div class="btn waves-effect waves-light green lighten-2" id="set-class" style="width: 100%;" value="' + id_class + i + '"><i class="material-icons right">check</i><span>Save Class</span> </div></div><div class="col s3"><div class="btn waves-effect waves-light red lighten-2" id="set-class" style="width: 100%;"><i class="material-icons right">clear</i><span>Delete Class</span> </div><div></div>').appendTo("#" + id_class + i);
       $("</form>");
     }
@@ -128,7 +129,7 @@ $(document).on('click', "#set-train-images", function() {
       }
       console.log(value + "---->" + dades_dataset["train_dir"] + "/" + actual_class);
       fsr.copy(value, dades_dataset["train_dir"] + "/" + actual_class + "/" + path.basename(value))
-        .then(() => console.log('success!'))
+        .then(() => count_img(dades_dataset["train_dir"] + "/" + actual_class, "#new-num-train-img"+actual_class, "Number of train images: "))
         .catch(err => console.error(err))
     })
 
@@ -151,7 +152,7 @@ $(document).on('click', "#set-validation-images", function() {
     files.forEach(function(value) {
       console.log(value + "---->" + dades_dataset["validation_dir"] + "/" + actual_class);
       fsr.copy(value, dades_dataset["validation_dir"] + "/" + actual_class + "/" + path.basename(value))
-        .then(() => console.log('success!'))
+        .then(() => count_img(dades_dataset["validation_dir"] + "/" + actual_class, "#new-num-validation-img"+actual_class, "Number of validation images: "))
         .catch(err => console.error(err))
     });
   }
@@ -174,6 +175,7 @@ $(document).on('click', "#delete-train-images", function() {
     files.forEach(function(value) {
       fsr.remove(value, err => {
         if (err) return console.error(err)
+        count_img(dades_dataset["train_dir"] + "/" + actual_class, "#new-num-train-img"+actual_class, "Number of train images: ")
         console.log('success!')
       })
     });
@@ -197,6 +199,7 @@ $(document).on('click', "#delete-validation-images", function() {
     files.forEach(function(value) {
       fsr.remove(value, err => {
         if (err) return console.error(err)
+        count_img(dades_dataset["validation_dir"] + "/" +  actual_class, "#new-num-validation-img"+actual_class, "Number of validation images: ")
         console.log('success!')
       })
     });
@@ -244,6 +247,8 @@ $(document).on('click', "#set-class", function() {
 ///////////////////Event per saber la clase actual//////////////////////////////
 $(document).on('click', "#tab-class", function() {
   actual_class = $(this).attr('value');
+  count_img(dades_dataset["train_dir"] + "/" + $(this).attr('value'), "#new-num-train-img"+$(this).attr('value'), "Number of train images: ")
+  count_img(dades_dataset["validation_dir"] + "/" + $(this).attr('value'), "#new-num-validation-img"+$(this).attr('value'), "Number of validation images: ")
   let obj_class = {
     name_class: "",
     train_dir: dades_dataset["train_dir"] + "/" + actual_class,
@@ -323,4 +328,15 @@ directoriTest.addEventListener('click', () => {
     }
   }
 })
+////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////Contar Fitxers////////////////////////////////////////
+function count_img(directory, type, cad) {
+  //contar arxius en subdirectoris, de forma sincrona per actualizar valors
+  let files = recursive(directory);
+  console.log(directory + " " + type + " " + cad);
+  $(type).html(cad + " " + files.length);
+  //document.getElementById(type).value = files.length
+
+}
 ////////////////////////////////////////////////////////////////////////////////

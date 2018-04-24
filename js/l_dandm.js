@@ -17,7 +17,9 @@ var fs = require('fs');
 var fsr = require('fs-extra');
 const path = require('path');
 //per contar arxius en subdirectoris
-var recursive = require("recursive-readdir");
+var recursive = require("recursive-readdir-synchronous");
+//Interesant cambiar-ho a asincrones amb promeses
+//var recursive = require("recursive-readdir");
 
 
 ///////////////////Dependencias per accedir a l'explorador d'arxius/////////////
@@ -103,13 +105,29 @@ directoriDataset.addEventListener('click', () => {
     dades_dataset = JSON.parse(fs.readFileSync(file[0], 'utf8'));
     train_dir = dades_dataset["train_dir"]
     validation_dir = dades_dataset["validation_dir"];
+    /*Asincrono
     //contar arxius en subdirectoris
     recursive(train_dir, function(err, files){
       console.log(files.length);
+      let train_img = document.querySelector('train-images')
+      train_img.value=files.length
     });
     recursive(validation_dir,function(err, files){
+      let validation_img = document.querySelector('validation-images')
+      validation_img.value=files.length
       console.log(files.length);
     });
+    */
+
+    //contar arxius en subdirectoris, de forma sincrona per actualizar valors
+    let files = recursive(train_dir);
+    console.log(files.length);
+    document.getElementById("train-images").value = files.length
+
+    files = recursive(validation_dir);
+    document.getElementById("validation-images").value = files.length
+    console.log(files.length);
+
     //dades_dataset["train_dir"] = directory[0] + '/train'
   }
 })

@@ -31,7 +31,7 @@
     $("#train-button").click(function() {
       $('#dataset').hide();
       $('#gallery-train').hide();
-      $('#train').show();
+      $('#train-sets').show();
       $('#load-dataset').hide();
       console.log("entra al boto 1");
     });
@@ -50,7 +50,7 @@
 
   $(document).ready(function() {
     $("#new-dataset-button").click(function() {
-      $('#train').hide();
+      $('#train-sets').hide();
       $('#gallery-train').show();
       $('#dataset').show();
       $('#load-dataset').hide();
@@ -59,7 +59,7 @@
   });
   $(document).ready(function() {
     $("#load-dataset-button").click(function() {
-      $('#train').hide();
+      $('#train-sets').hide();
       $('#gallery-train').hide();
       $('#dataset').hide();
       $('#load-dataset').show();
@@ -87,4 +87,3 @@
   $(document).ready(function() {
     $('select').formSelect();
   });
-  
