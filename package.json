@@ -19,6 +19,7 @@
     "chart.js": "^2.7.2",
     "crop-select-js": "^1.0.1",
     "fs-extra": "^5.0.0",
+    "image-size": "^0.6.2",
     "lg-autoplay": "^1.0.4",
     "lg-fullscreen": "^1.0.1",
     "lg-hash": "^1.0.4",
@@ -28,6 +29,7 @@
     "lg-video": "^1.2.1",
     "lg-zoom": "^1.1.0",
     "lightgallery": "^1.6.8",
+    "recursive-readdir": "^2.2.2",
     "zeromq": "^4.6.0",
     "zerorpc": "git+https://github.com/fyears/zerorpc-node.git"
   },

@@ -338,3 +338,15 @@ li#dataset-li:active {
 
 
 /*************************************/
+
+/*************Galeria imatges********/
+/*
+*Per al'inici de la ferramenta les ocultem
+*/
+div#gallery-train {
+    display: none;
+}
+div#load-dataset {
+    display: none;
+}
+/************************************/

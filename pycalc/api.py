@@ -15,8 +15,8 @@ class CalcApi(object):
 
     def entrenar(self,text):
         #executa una el model de una capa
-        #subprocess.Popen(["python", "pycalc/nnetworks/pre_train_locv.py",text["rutaTest"],text["rutaEntrenament"]])
-        subprocess.Popen(["python", "pycalc/nnetworks/pre_train_locv.py",text["rutaTest"],text["rutaEntrenament"]])
+        print(text)
+        subprocess.Popen(["python", "pycalc/nnetworks/models/general.py",text["train_dir"],text["validation_dir"],text["model"]])
         return 0
 
     def streaming_range(self):

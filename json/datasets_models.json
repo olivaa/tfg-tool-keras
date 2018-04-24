@@ -1,0 +1,24 @@
+{
+  "datasets":{
+    "Cats_vs_Dogs":{
+      "dir_dataset":"./home/Desktop/dataset/dataset-a.json"
+    },
+    "Cats_vs_Dogs_1":{
+      "dir_dataset":"./home/Desktop/dataset/dataset-a.json"
+    },
+    "Cats_vs_Dogs_2":{
+      "dir_dataset":"./home/Desktop/dataset/dataset-a.json"
+    }
+  },
+  "models":{
+    "vgg16":{
+      "dir_model":""
+    },
+    "vgg19":{
+      "dir_model":""
+    },
+    "LeNet-5":{
+      "dir_model":""
+    }
+  }
+}

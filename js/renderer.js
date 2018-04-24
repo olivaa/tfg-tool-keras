@@ -79,11 +79,9 @@ var actual_class = ""
 
 ///////////////////Dades entrenament////////////////////////////////////////////
 var data = {
-  rutaEntrenament: "",
-  rutaTest: "",
-  epochs: "",
-  arquitectura: "",
-  rutaScript: ""
+  train_dir: "",
+  validation_dir: "",
+  model: ""
 };
 var epochs_chart = 0;
 var data_charts_acc = []
@@ -124,18 +122,34 @@ texto.addEventListener('input', () => {
 ///////////////////Event per llançar tasca d'entrenament////////////////////////
 let entreno = document.querySelector('#entreno')
 entreno.addEventListener('click', () => {
-  client.invoke("entrenar", data, (error, res) => {
-    if (error) {
-      console.error(error)
-    } else {
-      console.log("alla vá")
-      train_chart.reset();
-      data_charts = []
-      //resultado_texto.textContent = res
-    }
-  })
+
+  let directoriDataset = document.querySelector('#select-dataset')
+  let model=""
+  $("#select-model option:selected").each(function() {
+    model += $(this).text();
+  });
+  if (directoriDataset !== "") {
+
+    //model y directoris
+    let dades_dataset = JSON.parse(fs.readFileSync(directoriDataset.value, 'utf8'));
+    data["train_dir"] = dades_dataset["train_dir"]
+    data["validation_dir"] = dades_dataset["validation_dir"];
+    data["model"]=model
+    //llança la tasca d'entrenament amb els arguments corresponents a rutes y model
+    client.invoke("entrenar", data, (error, res) => {
+      if (error) {
+        console.error(error)
+      } else {
+        console.log("alla vá")
+        train_chart.reset();
+        data_charts = []
+        //resultado_texto.textContent = res
+      }
+    })
+  }
 })
 ////////////////////////////////////////////////////////////////////////////////
+
 
 
 /////////////////////Comunicacio entre client-api-router-client/////////////////

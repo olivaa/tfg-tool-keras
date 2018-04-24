@@ -22,41 +22,59 @@
     <!--**********************Menu***************************************-->
     <div class="col s2">
       <ul class="side-menu">
-        <li><a href="#" id="train-button"><br><span class="fa fa-code"></span>Entrenamiento</a></li>
+        <li><a href="#" id="train-button"><br><span class="fa fa-code"></span>Train</a></li>
         <li><a href="#" id="dataset-button"><br><span class="fa fa-cog"></span>Dataset</a></li>
-        <li><a href="#" id="new-dataset-button"><br><span class="fa fa-cog"></span>Nuevo Dataset</a></li>
-        <li><a href="#" id="load-dataset-button"><br><span class="fa fa-cog"></span>Cargar Dataset</a></li>
-        <li><a href="#" id="model-button"><br><span class="fa fa-font"></span>Arquitectura</a></li>
-        <li><a href="#" id="statistic-button"><br><span class="fa fa-caret-square-o-right"></span>Estadísticas</a></li>
+        <li><a href="#" id="new-dataset-button"><br><span class="fa fa-cog"></span>New Dataset</a></li>
+        <li><a href="#" id="load-dataset-button"><br><span class="fa fa-cog"></span>Load Dataset</a></li>
+        <li><a href="#" id="model-button"><br><span class="fa fa-font"></span>Models</a></li>
+        <li><a href="#" id="statistic-button"><br><span class="fa fa-caret-square-o-right"></span>Test Train-Dataset</a></li>
       </ul>
     </div>
     <div class="col s10">
-      <!--***************************************************** -->
-
-      <!-- hola 2 y dades d'electon
-    <h1>Ferramenta Deep Learning</h1>
-    <p> We are using Node.js
-      <script>document.write(process.versions.node)</script>,
-      Chromium
-      <script>document.write(process.versions.chrome)</script>,
-      and Electron
-      <script>document.write(process.versions.electron)</script>.
-    </p>
-
-    <input id="texto" value="..."></input>
-    <div id="resultado_texto"></div>
-
-    -->
-
+      <!--************************Pantalla principal***************************** -->
       <div id="train-sets">
         <div id="train">
           <div class="row">
-            <div class="col s6">
+            <div class="col s6" style="margin-top:3%;">
+              <div class="input-field" class="white-text">
+                <select id="select-model" class="materialSelect  white-text">
+                   <option value="" disabled selected>Choose your option</option>
+                 </select>
+                <label>Select Model</label>
+              </div>
+              <button id="comunicacio" class="btn-3">Comunicacion</button>
+            </div>
+
+            <div class="col s6" style="margin-top:4%;">
+              <input type="text" id="select-dataset" class="white-text file-path validate" placeholder="Select dataset file...">
               <button id="entreno" class="btn-3">Entrenar</button>
               <div id="resultado_entreno"></div>
             </div>
-            <div class="col s6">
-              <button id="comunicacio" class="btn-3">Comunicacion</button>
+
+            <div class="row">
+              <div class="input-field col s2">
+                <input placeholder="0" id="first_name" type="text" class="validate">
+                <label for="first_name">Epochs</label>
+              </div>
+              <div class="input-field col s2">
+                <input placeholder="0" id="last_name" type="text" class="validate">
+                <label for="last_name">Batch Size</label>
+              </div>
+              <a class="btn-floating btn-small waves-effect waves-light blue modal-trigger" href="#modalInfo" style="margin-top:1%;"><i class="material-icons">help</i></a>
+            </div>
+            <div class="row">
+              <div class="col s6">
+                <div class="card-panel teal" id="panel-dataset-train">
+                  <span class="white-text">
+                  </span>
+                </div>
+              </div>
+              <div class="col s6">
+                <div class="card-panel teal" id="panel-model-train">
+                  <span class="white-text">
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
           <!-- Grafiques -->
@@ -130,7 +148,6 @@
             <div id="select-images">
             </div>
           </div>
-
           <!------------------------->
 
           <!-- GALERIA D'IMATGES -->
@@ -194,9 +211,16 @@
               <input disabled type="text" id="train-directory" class="basictxt white-text" placeholder="Select file dataset...">
             </div>
             <div class="col s2">
-              <div class="btn waves-effect waves-light" id="file-load-dataset" style="width: 100%;">
+              <div class="btn waves-effect waves-light" id="get-json-dataset" style="width: 100%;">
                 <span>File</span>
               </div>
+            </div>
+          </div>
+          <div class="row" id="load-principal-tab-classes">
+            <div class="col s12">
+              <ul class="tabs tabs-fixed-width tab-demo transparent z-depth-1" id="load-tab-classes">
+                <li class='tab text-white' id="load-tab-default"><a href='#'>Default</a></li>
+              </ul>
             </div>
           </div>
         </div>
@@ -229,6 +253,19 @@
     </div>
   </div>
 
+  <!-- Modal Info-->
+  <div id="modalInfo" class="modal">
+    <div class="modal-content">
+      <h4>Help</h4>
+      <li><strong>Epochs</strong>: Integer. Number of epochs to train the model. An epoch is an iteration over the entire <code>x</code> and <code>y</code> data provided. Note that in conjunction with <code>initial_epoch</code>,
+        <code>epochs</code> is to be understood as "final epoch". The model is not trained for a number of iterations given by <code>epochs</code>, but merely until the epoch of index <code>epochs</code> is reached.</li>
+      <li><strong>Batch size</strong>: Integer or <code>None</code>. Number of samples per gradient update. If unspecified, it will default to 32.</li>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+
 
 </body>
 
@@ -255,6 +292,7 @@
   require('./js/renderer.js')
   require('./js/n_dataset.js')
   require('./js/l_dataset.js')
+  require('./js/l_dandm.js')
 </script>
 
 </html>

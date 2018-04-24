@@ -16,11 +16,14 @@ const {
 var train_directory = ""
 var validation_directory = ""
 var dataset_name = ""
+//variable per agafar dimensio de la primera imatge
+var first_image = 0
 
 var dades_dataset = {
   name: dataset_name,
   train_dir: train_directory,
   validation_dir: validation_directory,
+  image_size: 0,
   classes: {
     num_classes: 0,
     info: {
@@ -115,6 +118,14 @@ $(document).on('click', "#set-train-images", function() {
   });
   if (files) {
     files.forEach(function(value) {
+      if (!first_image) {
+        let sizeOf = require('image-size');
+        let dimensions = sizeOf(value);
+        let size_image = dimensions.width.toString() + "*" + dimensions.height.toString()
+        console.log(size_image);
+        dades_dataset["image_size"] = size_image
+        first_image = 1
+      }
       console.log(value + "---->" + dades_dataset["train_dir"] + "/" + actual_class);
       fsr.copy(value, dades_dataset["train_dir"] + "/" + actual_class + "/" + path.basename(value))
         .then(() => console.log('success!'))
@@ -197,9 +208,24 @@ $(document).on('click', "#delete-validation-images", function() {
 $(document).on('click', "#set-class", function() {
   //console.log($(this).attr('value'));
   let name = document.getElementById("name-" + actual_class).value;
-  let train_dir = dades_dataset["train_dir"] + "/" + actual_class;
-  let val_dir = dades_dataset["validation_dir"] + "/" + actual_class;
-  dades_dataset["classes"]["info"][actual_class]["name_class"]=name;
+  dades_dataset["classes"]["info"][actual_class]["name_class"] = name;
+
+  //reanomenem els directoris amb el nom de la clase
+  fs.rename(dades_dataset["train_dir"] + "/" + actual_class, dades_dataset["train_dir"] + "/" + name, function(err) {
+    if (err) throw err;
+    console.log('renamed complete');
+  });
+  fs.rename(dades_dataset["validation_dir"] + "/" + actual_class, dades_dataset["validation_dir"] + "/" + name, function(err) {
+    if (err) throw err;
+    console.log('renamed complete');
+  });
+
+  //Canviem els directoris per defecte
+  let train_dir = dades_dataset["train_dir"] + "/" + name;
+  let val_dir = dades_dataset["validation_dir"] + "/" + name;
+  dades_dataset.classes.info[actual_class]["train_dir"] = train_dir;
+  dades_dataset.classes.info[actual_class]["validation_dir"] = val_dir;
+
   fs.readdir(train_dir, (err, files) => {
     dades_dataset["classes"]["info"][actual_class]["num_train"] = files.length;
     console.log(files.length);
@@ -242,19 +268,21 @@ let textoSave = document.querySelector('#directori-dataset-json-input')
 let directoriSave = document.querySelector('#directori-dataset-json')
 directoriSave.addEventListener('click', () => {
   name = document.getElementById("dataset_name").value;
-  dades_dataset.name=name;
+  dades_dataset.name = name;
   const directory = dialog.showOpenDialog({
     properties: ['openDirectory'],
   });
   if (directory) {
     textoSave.value = directory[0]
-    fs.writeFile(directory[0]+"/"+name+".json", JSON.stringify(dades_dataset), (err) => {
-    if (err) {
+    //Guardem la configuració del dataset
+    fs.writeFile(directory[0] + "/" + name + ".json", JSON.stringify(dades_dataset), (err) => {
+      if (err) {
         console.error(err);
         return;
-    };
-    console.log("File has been created");
-});
+      };
+      //Guardem la ruta i el nom del dataset
+      console.log("File has been created");
+    });
   }
 })
 ////////////////////////////////////////////////////////////////////////////////
