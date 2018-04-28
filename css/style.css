@@ -1,43 +1,48 @@
 #drag-file {
-    background-color: #202225;
-    color: white;
-    text-align: center;
-    height: 331px;
-    border-radius: 9px;
+  background-color: #202225;
+  color: white;
+  text-align: center;
+  height: 331px;
+  border-radius: 9px;
 }
 
-body{
+body {
   background-color: #2c3037;
 }
 
-label{
+label {
   font-size: 1rem;
   text-decoration: none;
   color: #FFF;
 }
 
 button#anadir {
-    float: right;
+  float: right;
 }
+
 div#gallery-train {
-    margin-top: 7%;
+  margin-top: 7%;
 }
 
 div#select-images {
-    margin-top: 55px;
+  margin-top: 55px;
 }
-img#img-thumb{
+
+img#img-thumb {
   width: 100px;
   height: 100px;
 }
 
 a#new-dataset-button {
-    background-color: #2a2c2d;
+  background-color: #2a2c2d;
 }
+
 a#load-dataset-button {
-    background-color: #2a2c2d;
+  background-color: #2a2c2d;
 }
+
 /* form styles */
+
 .basictxt {
   display: block;
   padding: 7px 8px;
@@ -47,64 +52,68 @@ a#load-dataset-button {
   border: 1px solid #ccc;
   font-family: Helvetica, Arial, sans-serif;
 }
-button#directori-train,button#directori-test {
-    height: 40px;
-    width: 38px;
-    background-image: url("images/folder.png");
+
+button#directori-train, button#directori-test {
+  height: 40px;
+  width: 38px;
+  background-image: url("images/folder.png");
 }
+
 canvas#myChart {
-    display: block;
-    width: 31%;
-    height: 400px;
+  display: block;
+  width: 31%;
+  height: 400px;
 }
 
 div#charts1 {
-      float: left;
-      display: block;
-      margin-top: 5%;
-      margin-left: 7%;
-      width: 31%;
-      height: 400px;
+  float: left;
+  display: block;
+  margin-top: 5%;
+  margin-left: 7%;
+  width: 31%;
+  height: 400px;
 }
+
 div#charts2 {
-      float: left;
-      display: block;
-      margin-top: 5%;
-      margin-left: 17%;
-      width: 31%;
-      height: 400px;
+  float: left;
+  display: block;
+  margin-top: 5%;
+  margin-left: 17%;
+  width: 31%;
+  height: 400px;
 }
-div#dataset{
+
+div#dataset {
   display: none;
   margin-top: 3%;
 }
 
 /**********Estil botons***************/
+
 /* GENERAL BUTTON STYLING */
-.btn-3,
-.btn-3::after {
+
+.btn-3, .btn-3::after {
   -webkit-transition: all 0.3s;
-	-moz-transition: all 0.3s;
+  -moz-transition: all 0.3s;
   -o-transition: all 0.3s;
-	transition: all 0.3s;
+  transition: all 0.3s;
 }
 
 .btn-3 {
   background: none;
-    border: 3px solid #fff;
-    border-radius: 5px;
-    color: #fff;
-    display: block;
-    font-size: 1em;
-    /* font-weight: bold; */
-    margin: 1em auto;
-    padding: 0.5em 1em;
-    position: relative;
-    text-transform: uppercase;
+  border: 3px solid #fff;
+  border-radius: 5px;
+  color: #fff;
+  display: block;
+  font-size: 1em;
+  /* font-weight: bold; */
+  margin: 1em auto;
+  padding: 0.5em 1em;
+  position: relative;
+  text-transform: uppercase;
 }
 
-.btn-3::before,
-.btn-3::after {
+.btn-3::before, .btn-3::after {
   background: #fff;
   content: '';
   position: absolute;
@@ -116,6 +125,7 @@ div#dataset{
 }
 
 /* BUTTON 1 */
+
 .btn-1::after {
   height: 0;
   left: 0;
@@ -128,6 +138,7 @@ div#dataset{
 }
 
 /* BUTTON 2 */
+
 .btn-2::after {
   height: 100%;
   left: 0;
@@ -140,6 +151,7 @@ div#dataset{
 }
 
 /* BUTTON 3 */
+
 .btn-3::after {
   height: 0;
   left: 50%;
@@ -155,6 +167,7 @@ div#dataset{
 }
 
 /* BUTTON 4 */
+
 .btn-4::before {
   height: 100%;
   left: 0;
@@ -178,6 +191,7 @@ div#dataset{
 }
 
 /* BUTTON 5 */
+
 .btn-5 {
   overflow: hidden;
 }
@@ -197,70 +211,66 @@ div#dataset{
   height: 100%;
   width: 135%;
 }
+
 /*************************************/
 
 /***********Scroll********************/
-.scrollbar
-{
-    height: 220px;
-    width: 39%;
-    background: #2c3037;
-    overflow-y: scroll;
-    float: left;
-    margin-left: 1%;
-    width: 39%;
-    height: 228px;
-}
 
-.scrollbar-2
-{
+.scrollbar {
   height: 220px;
-  width: 39%;
+  width: 100%;
   background: #2c3037;
   overflow-y: scroll;
   float: left;
-  margin-left: 15%;
-  width: 39%;
-  height: 228px;
-}
-.force-overflow
-{
-	min-height: 450px;
+  margin-bottom: 5%;
+  margin-top: 2%;
 }
 
-#wrapper
-{
-	text-align: center;
-	width: 500px;
-	margin: auto;
+.scrollbar-2 {
+  height: 220px;
+  width: 100%;
+  background: #2c3037;
+  overflow-y: scroll;
+  float: left;
+  margin-bottom: 5%;
+  margin-top: 2%;
+}
+
+.force-overflow {
+  min-height: 450px;
+}
+
+#wrapper {
+  text-align: center;
+  width: 500px;
+  margin: auto;
 }
 
 /*
  *  STYLE 1
  */
 
-#style-1::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	border-radius: 10px;
-	background-color: #2c3037;
+#style-1::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #2c3037;
 }
 
-#style-1::-webkit-scrollbar
-{
-	width: 12px;
-	background-color: #2c3037;
+#style-1::-webkit-scrollbar {
+  width: 12px;
+  background-color: #2c3037;
 }
 
-#style-1::-webkit-scrollbar-thumb
-{
-	border-radius: 10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #555;
+#style-1::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  background-color: #555;
 }
+
 /*************************************/
 
 /******************Menú***************/
+
 @import 'https://fonts.googleapis.com/css?family=Roboto';
 .side-menu {
   font-family: 'Roboto', sans-serif;
@@ -297,31 +307,35 @@ div#dataset{
   color: #FFF;
   height: 67px;
 }
+
 section.content {
-    margin-left: 12%;
+  margin-left: 12%;
 }
-.side-menu li a:hover,
-.side-menu li:first-child a {
+
+.side-menu li a:hover, .side-menu li:first-child a {
   background: #1f504e;
   display: block;
 }
+
 /*************************************/
 
 /************Menu Dataset*************/
-ul#dataset-ul {margin: 0;
+
+ul#dataset-ul {
   margin: 0;
-margin-bottom: 3%;
-background-color: #2c3037;
+  margin: 0;
+  margin-bottom: 3%;
+  background-color: #2c3037;
 }
 
 li#dataset-li {
   color: white;
   text-align: center;
   letter-spacing: 1px;
-display: inline-block;
-  width:60px;
-padding: 20px;
-border-bottom: solid;
+  display: inline-block;
+  width: 60px;
+  padding: 20px;
+  border-bottom: solid;
   border-width: 5px;
   border-bottom-color: #2142A6;
 }
@@ -336,17 +350,20 @@ li#dataset-li:active {
   border-width: 5px;
 }
 
-
 /*************************************/
 
 /*************Galeria imatges********/
+
 /*
 *Per al'inici de la ferramenta les ocultem
 */
+
 div#gallery-train {
-    display: none;
+  display: none;
 }
+
 div#load-dataset {
-    display: none;
+  display: none;
 }
+
 /************************************/

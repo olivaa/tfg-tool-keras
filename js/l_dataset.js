@@ -16,6 +16,7 @@ const {
 var train_directory = ""
 var validation_directory = ""
 var dataset_name = ""
+var first_image = 0
 
 var dades_dataset = {
   name: dataset_name,
@@ -34,7 +35,12 @@ let obj_class = {
   num_train: 0,
   num_validation: 0
 }
+//Respecte a la diferencia entre name_class y actual_class, name_class ens fa
+//servir per saber quin es el directori de la clase en camvi actual_class ens
+//indica l'identificador de la clase per a la ferramenta per mantindre sempre un
+//identificador encara que l'usuario canvie el nom de la clase
 let actual_class = ""
+let name_class = ""
 ////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////Event per carregar tabs amb numero de clases x//////////////////
@@ -67,7 +73,7 @@ function readClases() {
     //les dades per a cada clase. Nom de la clase, afegir i eliminar images d'entrenament
     // i validacio, guardar clase, eliminar clase.
 
-    $("<li class='tab text-white' id='load-tab-class' value='" + name_class + "'><a href='#load-" + id_class + i + "'> " + name_class + " </a></li>").appendTo("#load-tab-classes");
+    $("<li class='tab text-white' id='load-tab-class' value='" + id_class + i + "'><a href='#load-" + id_class + i + "'> " + name_class + " </a></li>").appendTo("#load-tab-classes");
     $("<div id='load-" + id_class + i + "' class='col s12' style='display:none;'><div class='row' id='load-row-" + id_class + i + "'></div></div>").appendTo("#load-principal-tab-classes");
     $("<form id='load-" + id_class + i + "'>").appendTo("#load-" + id_class + i);
     $("<div class='row'><div class='input-field col s6'> <input id='load-name-" + id_class + i + "' type='text' class='validate' value='" + name + "'> <label for='name-" + id_class + i + "'>Class Name</label> </div></div>").appendTo("#load-" + id_class + i);
@@ -75,8 +81,9 @@ function readClases() {
     $('<div class="col s6"> <div class="btn waves-effect waves-light" id="load-set-validation-images" style="width: 100%;"><i class="material-icons right">file_upload</i> <span>Add Validation Images</span> </div></div>').appendTo("#load-set-img-" + id_class + i);
     $('<div class="row" id="load-delete-img-' + id_class + i + '"> <div class="col s6"><div class="btn waves-effect waves-light red lighten-1" id="load-delete-train-images" style="width: 100%;"><i class="material-icons right">delete</i> <span>Delete Train Images</span> </div><div> </div>').appendTo("#load-" + id_class + i);
     $('<div class="col s6"> <div class="btn waves-effect waves-light red lighten-1" id="load-delete-validation-images" style="width: 100%;"><i class="material-icons right">delete</i> <span>Delete Validation Images</span> </div></div>').appendTo("#load-delete-img-" + id_class + i);
-    $('<div class="row" id="load-info-data-' + id_class + i + '"> <div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Train info.</span> <p id="num-train-img">Number of train images: ' + num_train + ' </p><p>Directory: ' + dir_train + '</p></div></div></div> ').appendTo("#load-" + id_class + i);
-    $('<div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Validation info.</span> <p  id="num-validation-img">Number of validation images:' + num_validation + ' </p> <p>Directory: ' + dir_validation + '</p> </div> </div> </div> </div>').appendTo("#load-info-data-" + id_class + i);
+    $('<div class="row" id="load-info-data-' + id_class + i + '"> <div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Train info.</span> <p id="load-num-train-img' + id_class + i + '">Number of train images: ' + num_train + ' </p><p>Directory: ' + dir_train + '</p></div></div></div> ').appendTo("#load-" + id_class + i);
+    $('<div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Validation info.</span> <p  id="load-num-validation-img' + id_class + i + '">Number of validation images:' + num_validation + ' </p> <p>Directory: ' + dir_validation + '</p> </div> </div> </div> </div>').appendTo("#load-info-data-" + id_class + i);
+    $('<div id="row"> <div class="col s6"> <div class="scrollbar" id="style-1"> <div class="force-overflow"> <div id="gallery-load-' + id_class + i + '-train"></div> </div> </div> </div> <div class="col s6"> <div class="scrollbar-2" id="style-1"> <div class="force-overflow"> <div id="gallery-load-' + id_class + i + '-validation"> </div> </div> </div> </div> </div> </div>').appendTo("#load-" + id_class + i)
     $('<div class="row"> <div class="col s3 offset-s6"><div class="btn waves-effect waves-light green lighten-2" id="load-set-class"  style="width: 100%;"  value="' + id_class + i + '"><i class="material-icons right">check</i><span>Save Class</span> </div></div><div class="col s3"><div class="btn waves-effect waves-light red lighten-2" id="load-set-class" style="width: 100%;"><i class="material-icons right">clear</i><span>Delete Class</span> </div><div></div>').appendTo("#load-" + id_class + i);
   }
 
@@ -113,13 +120,26 @@ $(document).on('click', "#load-set-train-images", function() {
     properties: ['openFile', 'multiSelections'],
   });
   if (files) {
+    files_count = 0;
     files.forEach(function(value) {
-      console.log(value + "---->" + dades_dataset["train_dir"] + "/" + actual_class);
-      fsr.copy(value, dades_dataset["train_dir"] + "/" + actual_class + "/" + path.basename(value))
-        .then(() => count_img(dades_dataset["train_dir"] + "/" + actual_class, "#num-train-img", "Number of train images: "))
+      if (!first_image) {
+        let sizeOf = require('image-size');
+        let dimensions = sizeOf(value);
+        let size_image = dimensions.width.toString() + "*" + dimensions.height.toString()
+        console.log(size_image);
+        dades_dataset["image_size"] = size_image
+        first_image = 1
+      }
+      console.log(value + "---->" + dades_dataset["train_dir"] + "/" + name_class);
+      fsr.copy(value, dades_dataset["train_dir"] + "/" + name_class + "/" + path.basename(value))
+        .then(() => count_img(dades_dataset["train_dir"] + "/" + name_class, "#load-num-train-img" + actual_class, "Number of train images: "))
+        .then(() => show_img(dades_dataset["train_dir"] + "/", "train", path.basename(value)))
         .catch(err => console.error(err))
     })
-
+    //Cridem a la funció per a que carrege les imatges
+    /*if (files_count == files.length) {
+      show_img(dades_dataset["train_dir"] + "/")
+    }*/
   }
 })
 ////////////////////////////////////////////////////////////////////////////////
@@ -138,11 +158,24 @@ $(document).on('click', "#load-set-validation-images", function() {
   });
   if (files) {
     files.forEach(function(value) {
-      console.log(value + "---->" + dades_dataset["validation_dir"] + "/" + actual_class);
-      fsr.copy(value, dades_dataset["validation_dir"] + "/" + actual_class + "/" + path.basename(value))
-        .then(() => count_img(dades_dataset["validation_dir"] + "/" + actual_class, "#num-validation-img", "Number of validation images: "))
+      if (!first_image) {
+        let sizeOf = require('image-size');
+        let dimensions = sizeOf(value);
+        let size_image = dimensions.width.toString() + "*" + dimensions.height.toString()
+        console.log(size_image);
+        dades_dataset["image_size"] = size_image
+        first_image = 1
+      }
+      console.log(value + "---->" + dades_dataset["validation_dir"] + "/" + name_class);
+      fsr.copy(value, dades_dataset["validation_dir"] + "/" + name_class + "/" + path.basename(value))
+        .then(() => count_img(dades_dataset["validation_dir"] + "/" + name_class, "#load-num-validation-img" + actual_class, "Number of validation images: "))
+        .then(() => show_img(dades_dataset["validation_dir"] + "/", "validation", path.basename(value)))
         .catch(err => console.error(err))
-    });
+    })
+    //Cridem a la funció per a que carrege les imatges
+    /*if (files_count == files.length) {
+      show_img(dades_dataset["train_dir"] + "/")
+    }*/
   }
 })
 ////////////////////////////////////////////////////////////////////////////////
@@ -161,12 +194,10 @@ $(document).on('click', "#load-delete-train-images", function() {
   });
   if (files) {
     files.forEach(function(value) {
-      fsr.remove(value, err => {
-        if (err) return console.error(err)
-        console.log('success!')
-        count_img(dades_dataset["train_dir"] + "/" + actual_class, "#num-train-img", "Number of train images: ")
-
-      })
+      fsr.remove(value)
+        .then(() => count_img(dades_dataset["train_dir"] + "/" + name_class, "#load-num-train-img" + actual_class, "Number of train images: "))
+        .then(() => show_img(dades_dataset["train_dir"] + "/", "train", ""))
+        .catch(err => console.error(err))
     });
   }
 })
@@ -186,11 +217,10 @@ $(document).on('click', "#load-delete-validation-images", function() {
   });
   if (files) {
     files.forEach(function(value) {
-      fsr.remove(value, err => {
-        if (err) return console.error(err)
-        console.log('success!')
-        count_img(dades_dataset["validation_dir"] + "/" + actual_class, "#num-validation-img", "Number of validation images: ")
-      })
+      fsr.remove(value)
+        .then(() => count_img(dades_dataset["validation_dir"] + "/" + name_class, "#load-num-validation-img" + actual_class, "Number of validation images: "))
+        .then(() => show_img(dades_dataset["validation_dir"] + "/", "validation", ""))
+        .catch(err => console.error(err))
     });
   }
 })
@@ -198,13 +228,22 @@ $(document).on('click', "#load-delete-validation-images", function() {
 
 ///////////////////Event per saber la clase actual//////////////////////////////
 $(document).on('click', "#load-tab-class", function() {
-  actual_class = $(this).attr('value');
-  count_img(dades_dataset["train_dir"] + "/" +  $(this).attr('value'), "#num-train-img", "Number of train images: ")
-  count_img(dades_dataset["validation_dir"] + "/" +  $(this).attr('value'), "#num-validation-img", "Number of validation images: ")
+  actual_class = $(this).attr('value')
+  name_class = dades_dataset["classes"]["info"][actual_class]["name_class"];
+  console.log("--NAME CLASS", name_class)
+  count_img(dades_dataset["train_dir"] + "/" + name_class, "#load-num-train-img" + actual_class, "Number of train images: ")
+  count_img(dades_dataset["validation_dir"] + "/" + name_class, "#load-num-validation-img" + actual_class, "Number of validation images: ")
+  //mostrar IMATGES
+  show_img(dades_dataset["train_dir"] + "/", "train", "")
+  show_img(dades_dataset["validation_dir"] + "/", "validation", "")
 })
 ////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////Contar Fitxers////////////////////////////////////////
+/*
+ *rep el tipus per saber en quin lloc ficar el resultat
+ *
+ */
 function count_img(directory, type, cad) {
   //contar arxius en subdirectoris, de forma sincrona per actualizar valors
   let files = recursive(directory);
@@ -213,5 +252,41 @@ function count_img(directory, type, cad) {
   //document.getElementById(type).value = files.length
 
 }
+////////////////////////////Carregar Imatges////////////////////////////////////
+/*
+ * Nom de la carpeta on es guarden les imatges
+ * arg1=> directori
+ * arg3=> array amb imatges
+ * arg2=> tipo train | v
+ */
+function show_img(directory, type, images) {
+  let obj_classes = dades_dataset["classes"]["info"]
+  console.log("clase actual" + actual_class)
+  let dir = obj_classes[actual_class]["name_class"] + "/"
+  var gallery = $('<div id="gallery-load' + actual_class + "-" + type + '"> </div>')
 
+  if (images == "") {
+    //carregem totes les imatges del directori
+    console.log("TIPUS-" + type)
+    $("#gallery-load-" + actual_class + "-" + type).empty()
+    gallery.appendTo("#gallery-load-" + actual_class + "-" + type)
+    console.log("variable dir=>" + dir)
+    console.log("variable directory=>" + directory)
+
+    let files = recursive(directory + dir);
+    files.forEach(function(value) {
+      $('<a href="' + value + '"><img id="img-thumb" src="' + value + '"/></a>').appendTo("#gallery-load" + actual_class + "-" + type)
+      console.log(value)
+    })
+    gallery.lightGallery();
+  } else {
+    //sino sol carregem una imatge
+    $('<a href="' + directory + dir + images + '"><img id="img-thumb" src="' + directory + dir + images + '"/></a>').appendTo("#gallery-load" + actual_class + "-" + type)
+    gallery.lightGallery();
+    console.log(directory + dir + images);
+  }
+  //$(type).html(cad + " " + files.length);
+  //document.getElementById(type).value = files.length
+
+}
 ////////////////////////////////////////////////////////////////////////////////

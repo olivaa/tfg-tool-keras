@@ -1,33 +1,4 @@
   $(document).ready(function() {
-    $("#lightgallery").lightGallery({
-      thumbnail: true,
-      dynamicEl: [{
-        "src": 'pycalc/nnetworks/data/train/train6051/3a2abc3f0d53858b.jpg'
-      }, {
-        "src": '../static/img/1.jpg'
-      }, {
-        "src": '../static/img/1.jpg'
-      }, {
-        "src": '../static/img/1.jpg'
-      }, {
-        "src": '../static/img/1.jpg'
-      }, {
-        "src": '../static/img/1.jpg'
-      }, {
-        "src": '../static/img/1.jpg'
-      }, {
-        "src": '../static/img/1.jpg'
-      }]
-    });
-  });
-
-
-  $('#crop-select').CropSelectJs({
-    imageSrc: "pycalc/nnetworks/data/train/train6051/3a0ceb586a530451.jpg"
-  });
-
-
-  $(document).ready(function() {
     $("#train-button").click(function() {
       $('#dataset').hide();
       $('#gallery-train').hide();
