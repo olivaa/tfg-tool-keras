@@ -160,11 +160,9 @@
           </div>
         </div>
 
-        <!-- GALERIA D'IMATGES -->
-
         <div class="row">
           <div class="col s6">
-            <div class="btn waves-effect waves-light red lighten-2" id="reset-dataset" style="width: 100%;">
+            <div class="btn waves-effect waves-light red lighten-2" id="delete-dataset" style="width: 100%;">
               <i class="material-icons right">save</i>
               <span>Reset dataset</span>
             </div>
@@ -205,7 +203,15 @@
             </ul>
           </div>
         </div>
-        <!-- GALERIA D'IMATGES -->
+        <div class="row">
+          <div class="col s6">
+            <a class="btn waves-effect  waves-light  modal-trigger blue" id="save-dataset" href="#modal-save-load" style="width: 100%;">
+                  <i class="material-icons right">save</i>
+                  <span>Save dataset</span>
+                </a>
+          </div>
+
+        </div>
 
         <!-- ***********************Fi cargar dataset***************************** -->
 
@@ -236,6 +242,21 @@
     </div>
   </div>
 
+  <!--Modal guardar dades d'un dataset carregat-->
+  <!-- Modal Structure -->
+  <div id="modal-save-load" class="modal">
+    <div class="modal-content">
+      <h4>SAVE YOUR DATASET</h4>
+      <div class="input-field col s6">
+        <input disabled placeholder="Dataset Name" id="load_dataset_name" type="text" class="validate">
+        <label for="first_name"></label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="save-dataset-load">Save</a>
+    </div>
+  </div>
+
   <!-- Modal Info-->
   <div id="modalInfo" class="modal">
     <div class="modal-content">
@@ -260,6 +281,16 @@
   </div>
   <!--Modal Save Class -->
   <div id="modalSaveClass" class="modal">
+    <div class="modal-content">
+      <h4>Success</h4>
+      <p>The class has been saved successfully</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
+    </div>
+  </div>
+  <!--Modal Save Class -->
+  <div id="load-modalSaveClass" class="modal">
     <div class="modal-content">
       <h4>Success</h4>
       <p>The class has been saved successfully</p>

@@ -76,7 +76,7 @@ function readClases() {
     $("<li class='tab text-white' id='load-tab-class' value='" + id_class + i + "'><a href='#load-" + id_class + i + "'> " + name_class + " </a></li>").appendTo("#load-tab-classes");
     $("<div id='load-" + id_class + i + "' class='col s12' style='display:none;'><div class='row' id='load-row-" + id_class + i + "'></div></div>").appendTo("#load-principal-tab-classes");
     $("<form id='load-" + id_class + i + "'>").appendTo("#load-" + id_class + i);
-    $("<div class='row'><div class='input-field col s6'> <input id='load-name-" + id_class + i + "' type='text' class='validate' value='" + name + "'> <label for='name-" + id_class + i + "'>Class Name</label> </div></div>").appendTo("#load-" + id_class + i);
+    $("<div class='row'><div class='input-field col s6' id='load-input-name'> <input id='load-name-" + id_class + i + "' type='text' class='validate' value='" + name_class + "'> <label for='name-" + id_class + i + "'></label> </div></div>").appendTo("#load-" + id_class + i);
     $('<div class="row" id="load-set-img-' + id_class + i + '"> <div class="col s6"><div class="btn waves-effect waves-light" id="load-set-train-images" style="width: 100%;"><i class="material-icons right">file_upload</i> <span>Add Train Images</span> </div><div> </div>').appendTo("#load-" + id_class + i);
     $('<div class="col s6"> <div class="btn waves-effect waves-light" id="load-set-validation-images" style="width: 100%;"><i class="material-icons right">file_upload</i> <span>Add Validation Images</span> </div></div>').appendTo("#load-set-img-" + id_class + i);
     $('<div class="row" id="load-delete-img-' + id_class + i + '"> <div class="col s6"><div class="btn waves-effect waves-light red lighten-1" id="load-delete-train-images" style="width: 100%;"><i class="material-icons right">delete</i> <span>Delete Train Images</span> </div><div> </div>').appendTo("#load-" + id_class + i);
@@ -84,7 +84,7 @@ function readClases() {
     $('<div class="row" id="load-info-data-' + id_class + i + '"> <div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Train info.</span> <p id="load-num-train-img' + id_class + i + '">Number of train images: ' + num_train + ' </p><p>Directory: ' + dir_train + '</p></div></div></div> ').appendTo("#load-" + id_class + i);
     $('<div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Validation info.</span> <p  id="load-num-validation-img' + id_class + i + '">Number of validation images:' + num_validation + ' </p> <p>Directory: ' + dir_validation + '</p> </div> </div> </div> </div>').appendTo("#load-info-data-" + id_class + i);
     $('<div id="row"> <div class="col s6"> <div class="scrollbar" id="style-1"> <div class="force-overflow"> <div id="gallery-load-' + id_class + i + '-train"></div> </div> </div> </div> <div class="col s6"> <div class="scrollbar-2" id="style-1"> <div class="force-overflow"> <div id="gallery-load-' + id_class + i + '-validation"> </div> </div> </div> </div> </div> </div>').appendTo("#load-" + id_class + i)
-    $('<div class="row"> <div class="col s3 offset-s6"><div class="btn waves-effect waves-light green lighten-2" id="load-set-class"  style="width: 100%;"  value="' + id_class + i + '"><i class="material-icons right">check</i><span>Save Class</span> </div></div><div class="col s3"><div class="btn waves-effect waves-light red lighten-2" id="load-set-class" style="width: 100%;"><i class="material-icons right">clear</i><span>Delete Class</span> </div><div></div>').appendTo("#load-" + id_class + i);
+    $('<div class="row"> <div class="col s3 offset-s6"><div id="load-show-save-' + id_class + i + '" style="visibility:hidden;"><div class="btn waves-effect waves-light green lighten-2 modal-trigger" id="load-set-class" href="#load-modalSaveClass"  style="width: 100%;"  value="' + id_class + i + '"><i class="material-icons right">check</i><span>Save Class</span></div></div></div><div class="col s3"><div class="btn waves-effect waves-light red lighten-2" id="load-set-class" style="width: 100%;"><i class="material-icons right">clear</i><span>Delete Class</span> </div><div></div>').appendTo("#load-" + id_class + i);
   }
 
 }
@@ -100,6 +100,8 @@ $(document).on('click', "#get-json-dataset", function() {
   });
   if (file) {
     console.log(file);
+    let name_file = file
+    $('#load_dataset_name').val(name_file)
     dades_dataset = JSON.parse(fs.readFileSync(file[0], 'utf8'));
     console.log(dades_dataset);
     //carregem les dades
@@ -130,6 +132,7 @@ $(document).on('click', "#load-set-train-images", function() {
         dades_dataset["image_size"] = size_image
         first_image = 1
       }
+
       console.log(value + "---->" + dades_dataset["train_dir"] + "/" + name_class);
       fsr.copy(value, dades_dataset["train_dir"] + "/" + name_class + "/" + path.basename(value))
         .then(() => count_img(dades_dataset["train_dir"] + "/" + name_class, "#load-num-train-img" + actual_class, "Number of train images: "))
@@ -141,6 +144,54 @@ $(document).on('click', "#load-set-train-images", function() {
       show_img(dades_dataset["train_dir"] + "/")
     }*/
   }
+})
+////////////////////////////////////////////////////////////////////////////////
+
+///////////////////Activar o desactivar guardar Dataset/////////////////////////
+$(document).on('click', "#load-input-name", function() {
+  console.log("entra")
+  let name = document.getElementById("load-name-" + actual_class).value
+  if (name != dades_dataset["classes"]["info"][actual_class]["name_class"] || name != "") {
+    $("#load-show-save-" + actual_class).css("visibility", "initial");
+  }
+})
+////////////////////////////////////////////////////////////////////////////////
+
+///////////////////Event per guardar configuració d'alguna clase////////////////
+$(document).on('click', "#load-set-class", function() {
+  //console.log($(this).attr('value'));
+  let name = document.getElementById("load-name-" + actual_class).value;
+
+  //Sols reanomenem els directoris si ha cambiat el nom de la clase
+  if (name != dades_dataset["classes"]["info"][actual_class]["name_class"]) {
+    let old_name = dades_dataset["classes"]["info"][actual_class]["name_class"]
+    //reanomenem els directoris amb el nom de la clase
+    fs.rename(dades_dataset["train_dir"] + "/" + old_name, dades_dataset["train_dir"] + "/" + name, function(err) {
+      if (err) throw err;
+      console.log('renamed complete');
+    })
+    fs.rename(dades_dataset["validation_dir"] + "/" + old_name, dades_dataset["validation_dir"] + "/" + name, function(err) {
+      if (err) throw err;
+      console.log('renamed complete');
+    })
+    dades_dataset["classes"]["info"][actual_class]["name_class"] = name;
+  }
+
+  $("#load-show-save-" + actual_class).css("visibility", "hidden");
+  $("#load-modalSaveClass").trigger("click");
+
+  //Canviem els directoris per defecte
+  let train_dir = dades_dataset["train_dir"] + "/" + name;
+  let val_dir = dades_dataset["validation_dir"] + "/" + name;
+  dades_dataset.classes.info[actual_class]["train_dir"] = train_dir;
+  dades_dataset.classes.info[actual_class]["validation_dir"] = val_dir;
+
+  fs.readdir(train_dir, (err, files) => {
+    dades_dataset["classes"]["info"][actual_class]["num_train"] = files.length;
+  });
+  fs.readdir(val_dir, (err, files) => {
+    dades_dataset["classes"]["info"][actual_class]["num_validation"] = files.length;
+  });
 })
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -236,6 +287,23 @@ $(document).on('click', "#load-tab-class", function() {
   //mostrar IMATGES
   show_img(dades_dataset["train_dir"] + "/", "train", "")
   show_img(dades_dataset["validation_dir"] + "/", "validation", "")
+})
+////////////////////////////////////////////////////////////////////////////////
+
+/////////Event per seleccionar ruta on guardar les dades del dataset////////////
+let directoriSave = document.querySelector('#save-dataset-load')
+directoriSave.addEventListener('click', () => {
+  name = document.getElementById("load_dataset_name").value;
+  dades_dataset.name = name;
+  //Guardem la configuració del dataset
+  fs.writeFile(name, JSON.stringify(dades_dataset), (err) => {
+    if (err) {
+      console.error(err);
+      return;
+    };
+    //Guardem la ruta i el nom del dataset
+    console.log("File has been created");
+  });
 })
 ////////////////////////////////////////////////////////////////////////////////
 
