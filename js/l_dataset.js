@@ -84,7 +84,7 @@ function readClases() {
     $('<div class="row" id="load-info-data-' + id_class + i + '"> <div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Train info.</span> <p id="load-num-train-img' + id_class + i + '">Number of train images: ' + num_train + ' </p><p>Directory: ' + dir_train + '</p></div></div></div> ').appendTo("#load-" + id_class + i);
     $('<div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Validation info.</span> <p  id="load-num-validation-img' + id_class + i + '">Number of validation images:' + num_validation + ' </p> <p>Directory: ' + dir_validation + '</p> </div> </div> </div> </div>').appendTo("#load-info-data-" + id_class + i);
     $('<div id="row"> <div class="col s6"> <div class="scrollbar" id="style-1"> <div class="force-overflow"> <div id="gallery-load-' + id_class + i + '-train"></div> </div> </div> </div> <div class="col s6"> <div class="scrollbar-2" id="style-1"> <div class="force-overflow"> <div id="gallery-load-' + id_class + i + '-validation"> </div> </div> </div> </div> </div> </div>').appendTo("#load-" + id_class + i)
-    $('<div class="row"> <div class="col s3 offset-s6"><div id="load-show-save-' + id_class + i + '" style="visibility:hidden;"><div class="btn waves-effect waves-light green lighten-2 modal-trigger" id="load-set-class" href="#load-modalSaveClass"  style="width: 100%;"  value="' + id_class + i + '"><i class="material-icons right">check</i><span>Save Class</span></div></div></div><div class="col s3"><div class="btn waves-effect waves-light red lighten-2" id="load-set-class" style="width: 100%;"><i class="material-icons right">clear</i><span>Delete Class</span> </div><div></div>').appendTo("#load-" + id_class + i);
+    $('<div class="row"> <div class="col s3 offset-s6"><div id="load-show-save-' + id_class + i + '" style="visibility:hidden;"><div class="btn waves-effect waves-light green lighten-2 modal-trigger" id="load-set-class" style="width: 100%;"  value="' + id_class + i + '"><i class="material-icons right">check</i><span>Save Class</span></div></div></div><div class="col s3"><div class="btn waves-effect waves-light red lighten-2" id="load-set-class" style="width: 100%;"><i class="material-icons right">clear</i><span>Delete Class</span> </div><div></div>').appendTo("#load-" + id_class + i);
   }
 
 }
@@ -178,7 +178,7 @@ $(document).on('click', "#load-set-class", function() {
   }
 
   $("#load-show-save-" + actual_class).css("visibility", "hidden");
-  $("#load-modalSaveClass").trigger("click");
+  $("#modalSaveClass").modal("open");
 
   //Canviem els directoris per defecte
   let train_dir = dades_dataset["train_dir"] + "/" + name;

@@ -175,7 +175,8 @@ entreno.addEventListener('click', () => {
       }
     })
   } else {
-    console.log("entra")
+    $("#modal-error").empty()
+    $('<h4>Complete fields <i class="material-icons">error_outline</i></h4> <li>There are missing fields to complete. Please, complete all the fields to start the training.</li>').appendTo("#modal-error")
     $('#modalError').modal('open');
   }
 })

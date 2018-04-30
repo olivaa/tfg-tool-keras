@@ -89,7 +89,6 @@ $("#select-model").change(function() {
   $("#select-model option:selected").each(function() {
     let str = ""
     str += $(this).text() + " ";
-    alert(str);
   });
 });
 

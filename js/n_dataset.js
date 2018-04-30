@@ -44,48 +44,49 @@ var obj_class = {
 //identificador encara que l'usuario canvie el nom de la clase
 var actual_class = "" //per saber el tab en el que estem
 var name_class = "" //per saber el nom de la clase actual
-var element_tab=""
+var element_tab = ""
 ////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////Event per crear tabs amb numero de clases x//////////////////
 let num_classes = document.querySelector('#number-of-classes')
 let r_classes = document.querySelector('#input-classes')
 num_classes.addEventListener('click', () => {
+
+  /*
+    Si no s'han cumplimentat tots els camps no es creen les clases, s'avisa
+    amb una ventana modal
+  */
+
+  if (dades_dataset["train_dir"] == "" || dades_dataset["validation_dir"]=="") {
+    $("#modal-error").empty()
+    $('<h4>Complete fields <i class="material-icons">error_outline</i></h4> <li>There are missing fields to complete. Please, complete all fields to start.</li>').appendTo("#modal-error")
+    $('#modalError').modal('open');
+  } else {
   /*
    *Agafem el numero introduit en el input de clases y creem aquest numero de
    *tabs. A cada tab li ficarem un identificador diferent.
    */
-  var id_class = "classes";
-  dades_dataset["classes"]["num_classes"] = r_classes.value
-  for (i = 0; i < r_classes.value; i++) {
-    //Asi creem les carpetes de cada una de les clases tant per a l'entrenamiento
-    //com per a validacio
-    if (!fs.existsSync(dades_dataset["train_dir"] + "/" + id_class + i)) {
-      fs.mkdirSync(dades_dataset["train_dir"] + "/" + id_class + i);
-    }
-    if (!fs.existsSync(dades_dataset["validation_dir"] + "/" + id_class + i)) {
-      fs.mkdirSync(dades_dataset["validation_dir"] + "/" + id_class + i);
-    }
-    //Asi creeem dinamicament cada un dels componenets necesaris per arreplegar
-    //les dades per a cada clase. Nom de la clase, afegir i eliminar images d'entrenament
-    // i validacio, guardar clase, eliminar clase.
-    if (i === 0) {
 
+
+    var id_class = "classes";
+    dades_dataset["classes"]["num_classes"] = r_classes.value
+    if (r_classes.value > 0) {
       $("#tab-default").remove();
-      $("<li class='tab text-white' id='tab-class' value='" + id_class + i + "'><a href='#" + id_class + i + "'> " + id_class + i + " </a></li>").appendTo("#tab-classes");
-      $("<div id='" + id_class + i + "' class='col s12' style='display:none;'><div class='row' id='row-" + id_class + i + "'></div></div>").appendTo("#principal-tab-classes");
-      $("<form id='" + id_class + i + "'>").appendTo("#" + id_class + i);
-      $("<div class='row'><div class='input-field col s6' id='input-name'> <input id='name-" + id_class + i + "' type='text' class='validate'> <label for='name-" + id_class + i + "'>Class Name</label> </div></div>").appendTo("#" + id_class + i);
-      $('<div class="row" id="set-img-' + id_class + i + '"> <div class="col s6"><div class="btn waves-effect waves-light" id="set-train-images" style="width: 100%;"><i class="material-icons right">file_upload</i> <span>Add Train Images</span> </div><div> </div>').appendTo("#" + id_class + i);
-      $('<div class="col s6"> <div class="btn waves-effect waves-light" id="set-validation-images" style="width: 100%;"><i class="material-icons right">file_upload</i> <span>Add Validation Images</span> </div></div>').appendTo("#set-img-" + id_class + i);
-      $('<div class="row" id="delete-img-' + id_class + i + '"> <div class="col s6"><div class="btn waves-effect waves-light red lighten-1" id="delete-train-images" style="width: 100%;"><i class="material-icons right">delete</i> <span>Delete Train Images</span> </div><div> </div>').appendTo("#" + id_class + i);
-      $('<div class="col s6"> <div class="btn waves-effect waves-light red lighten-1" id="delete-validation-images" style="width: 100%;"><i class="material-icons right">delete</i> <span>Delete Validation Images</span> </div></div>').appendTo("#delete-img-" + id_class + i);
-      $('<div class="row" id="info-data-' + id_class + i + '"> <div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Train info.</span> <p  id="new-num-train-img' + id_class + i + '">Number of train images: 0 </p><p>Directory: ' + dades_dataset["train_dir"] + '/' + id_class + i + '</p></div></div></div> ').appendTo("#" + id_class + i);
-      $('<div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Validation info.</span> <p id="new-num-validation-img' + id_class + i + '">Number of validation images: 0</p> <p>Directory: ' + dades_dataset["validation_dir"] + '/' + id_class + i + '</p> </div> </div> </div> </div>').appendTo("#info-data-" + id_class + i);
-      $('<div id="row"> <div class="col s6"> <div class="scrollbar" id="style-1"> <div class="force-overflow"> <div id="gallery-new-' + id_class + i + '-train"></div> </div> </div> </div> <div class="col s6"> <div class="scrollbar-2" id="style-1"> <div class="force-overflow"> <div id="gallery-new-' + id_class + i + '-validation"> </div> </div> </div> </div> </div> </div>').appendTo("#" + id_class + i)
-      $('<div class="row"> <div class="col s3 offset-s6"><div id="show-save-' + id_class + i + '" style="visibility:hidden;"><a class="btn waves-effect waves-light green lighten-2 modal-trigger" href="#modalSaveClass" id="set-class"  style="width: 100%;"  value="' + id_class + i + '"><i class="material-icons right">check</i><span>Save Class</span> </a></div></div><div class="col s3"><div class="btn waves-effect waves-light red lighten-2" id="delete-class" style="width: 100%;"><i class="material-icons right">clear</i><span>Delete Class</span> </div><div></div>').appendTo("#" + id_class + i);
-    } else {
+      $( "#number-of-classes" ).prop( "disabled", true );
+    }
+    for (i = 0; i < r_classes.value; i++) {
+      //Asi creem les carpetes de cada una de les clases tant per a l'entrenamiento
+      //com per a validacio
+      if (!fs.existsSync(dades_dataset["train_dir"] + "/" + id_class + i)) {
+        fs.mkdirSync(dades_dataset["train_dir"] + "/" + id_class + i);
+      }
+      if (!fs.existsSync(dades_dataset["validation_dir"] + "/" + id_class + i)) {
+        fs.mkdirSync(dades_dataset["validation_dir"] + "/" + id_class + i);
+      }
 
+      //Asi creeem dinamicament cada un dels componenets necesaris per arreplegar
+      //les dades per a cada clase. Nom de la clase, afegir i eliminar images d'entrenament
+      // i validacio, guardar clase, eliminar clase.
       $("<li class='tab text-white' id='tab-class' value='" + id_class + i + "'><a href='#" + id_class + i + "' > " + id_class + i + "</a></li>").appendTo("#tab-classes");
       $("<div id='" + id_class + i + "' class='col s12' style='display:none;'><div class='row' id='row-" + id_class + i + "'></div></div>").appendTo("#principal-tab-classes");
       $("<form id='" + id_class + i + "'>").appendTo("#" + id_class + i);
@@ -97,7 +98,8 @@ num_classes.addEventListener('click', () => {
       $('<div class="row" id="info-data-' + id_class + i + '"> <div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Train info.</span> <p  id="new-num-train-img' + id_class + i + '">Number of train images: 0 </p><p>Directory: ' + dades_dataset["train_dir"] + '/' + id_class + i + '</p></div></div></div> ').appendTo("#" + id_class + i);
       $('<div class="col s12 m6"> <div class="card grey darken-3"><div class="card-content white-text"> <span class="card-title">Validation info.</span> <p  id="new-num-validation-img' + id_class + i + '">Number of validation images: 0</p> <p>Directory: ' + dades_dataset["validation_dir"] + '/' + id_class + i + '</p> </div> </div> </div> </div>').appendTo("#info-data-" + id_class + i);
       $('<div id="row"> <div class="col s6"> <div class="scrollbar" id="style-1"> <div class="force-overflow"> <div id="gallery-new-' + id_class + i + '-train"></div> </div> </div> </div> <div class="col s6"> <div class="scrollbar-2" id="style-1"> <div class="force-overflow"> <div id="gallery-new-' + id_class + i + '-validation"> </div> </div> </div> </div> </div> </div>').appendTo("#" + id_class + i)
-      $('<div class="row"> <div class="col s3 offset-s6"><div id="show-save-' + id_class + i + '" style="visibility:hidden;"><div class="btn waves-effect waves-light green lighten-2 modal-trigger" href="#modalSaveClass" id="set-class"  style="width: 100%;"  value="' + id_class + i + '"><i class="material-icons right">check</i><span>Save Class</span></div> </div></div><div class="col s3"><div class="btn waves-effect waves-light red lighten-2" id="delete-class" style="width: 100%;"><i class="material-icons right">clear</i><span>Delete Class</span> </div><div></div>').appendTo("#" + id_class + i);
+      $('<div class="row"> <div class="col s3 offset-s6"><div id="show-save-' + id_class + i + '" style="visibility:hidden;"><div class="btn waves-effect waves-light green lighten-2 modal-trigger" id="set-class"  style="width: 100%;"  value="' + id_class + i + '"><i class="material-icons right">check</i><span>Save Class</span></div> </div></div><div class="col s3"><div class="btn waves-effect waves-light red lighten-2" id="delete-class" style="width: 100%;"><i class="material-icons right">clear</i><span>Delete Class</span> </div><div></div>').appendTo("#" + id_class + i);
+
     }
   }
 })
@@ -265,7 +267,7 @@ $(document).on('click', "#set-class", function() {
   }
 
   $("#show-save-" + actual_class).css("visibility", "hidden");
-  $("#modalSaveClass").trigger("click");
+  $("#modalSaveClass").modal("open");
 
   //Canviem els directoris per defecte
   let train_dir = dades_dataset["train_dir"] + "/" + name;
@@ -291,7 +293,7 @@ $(document).on('click', "#set-class", function() {
 ///////////////////Event per saber la clase actual//////////////////////////////
 $(document).on('click', "#tab-class", function() {
   actual_class = $(this).attr('value');
-  element_tab=$(this)
+  element_tab = $(this)
   let obj_class = {
     name_class: actual_class,
     train_dir: dades_dataset["train_dir"] + "/" + actual_class,
@@ -326,7 +328,7 @@ $(document).on('click', "#tab-class", function() {
 /////////////////////////////Eliminar clase////////////////////////////////////
 /*Falta posar que elimine les dades de de la clase*/
 $(document).on('click', "#delete-class", function() {
-  console.log("#tab"+actual_class)
+  console.log("#tab" + actual_class)
   element_tab.remove()
   $("#" + actual_class).remove()
 })
