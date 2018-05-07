@@ -49,7 +49,7 @@ requester.on('message', function(msg) {
 
   $('#actual-epoch').html(actual_epoch + "/" + total_epoch.value);
   //Si es la útlima iteració parem el crono
-  if (total_epoch.value-1 == actual_epoch) {
+  if (total_epoch.value - 1 == actual_epoch) {
     timer.stop();
   }
   requester.send("disponible");
@@ -191,6 +191,19 @@ comunicacio.addEventListener('click', () => {
   client.invoke("streaming_range");
 })
 ////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////Cropejant/////////////////////////////////////
+$(document).on('click', "#lg-crop", function() {
+  let value = $(this).attr('value')
+  client.invoke("crop", value, (error, res) => {
+    if (error) {
+      console.error(error)
+    }
+  })
+  console.log(value);
+})
+////////////////////////////////////////////////////////////////////////////////
+
 
 
 ////////////////////Creacio de grafiques////////////////////////////////////////

@@ -156,7 +156,9 @@
                 <li class='tab text-white' id="tab-default"><a href='#'>Default</a></li>
               </ul>
             </div>
-
+            <div id="new-tabs">
+              <!--Aqui van els divs dels tabs-->
+            </div>
           </div>
         </div>
 
@@ -202,21 +204,86 @@
               <li class='tab text-white' id="load-tab-default"><a href='#'>Default</a></li>
             </ul>
           </div>
+          <div id="load-tabs">
+          </div>
         </div>
         <div class="row">
+          <div class="col s6">
+            <div class="btn waves-effect waves-light red lighten-2" id="load-delete-dataset" style="width: 100%;">
+              <i class="material-icons right">save</i>
+              <span>Exit dataset</span>
+            </div>
+          </div>
           <div class="col s6">
             <a class="btn waves-effect  waves-light  modal-trigger blue" id="save-dataset" href="#modal-save-load" style="width: 100%;">
                   <i class="material-icons right">save</i>
                   <span>Save dataset</span>
                 </a>
           </div>
-
         </div>
-
         <!-- ***********************Fi cargar dataset***************************** -->
-
         <!------------------------->
       </div>
+      <!-- ***********************Modelos***************************** -->
+      <div id="models">
+        <div class="row" style="margin-top:3%">
+          <div class="col s6">
+            <div class="input-field" class="white-text">
+              <select id="options-model" class="materialSelect white-text">
+                <option value="" disabled selected>Choose your option</option>
+                 <option value="api" >Models Keras</option>
+                 <option value="new" >New model</option>
+                 <option value="load">Load model</option>
+               </select>
+              <label>Select type of model</label>
+            </div>
+          </div>
+          <div class="col s6" id="api-keras">
+            <div class="input-field" class="white-text">
+              <select id="type-model" class="materialSelect white-text">
+                 <option value="" disabled selected>Choose your option</option>
+               </select>
+              <label>Select Model</label>
+            </div>
+          </div>
+        </div>
+        <div id="api-keras-learning">
+          <div class="row">
+            <div class="col s6">
+              <div class="input-field col s11" class="white-text">
+                <select id="type-learn" class="materialSelect white-text">
+                 <option value="transfer" selected>Transfer Learning</option>
+                 <option value="fine">Fine-Tune</option>
+               </select>
+                <label>Select type learning</label>
+              </div>
+              <div class="input-field col s1">
+                <a class="btn-floating btn-small waves-effect waves-light blue modal-trigger" href="#modalInfo" style="margin-top:1%;"><i class="material-icons">help</i></a>
+              </div>
+            </div>
+            <div class="col s6">
+              <div class="col s11" style="margin-top:2%;">
+                <input type="text" id="select-file-transfer" class="white-text file-path validate" placeholder="Select your file...">
+              </div>
+              <div class="input-field col s1">
+                <a class="btn-floating btn-small waves-effect waves-light blue modal-trigger" href="#modalInfo" style="margin-top:1%;"><i class="material-icons">help</i></a>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s6">
+              <div class="col s4">
+                <input type="number" id="freeze-layers" class="basictxt white-text" placeholder="Freeze top layers">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ***********************Fi Modelos***************************** -->
+
+      <!-- ***********************Test redes entrenadas***************************** -->
+
+      <!-- ***********************Fi test redes***************************** -->
     </div>
   </div>
   <!--Modal guardar dades d'un nou dataset-->
@@ -295,26 +362,29 @@
   </div>
 
 
-<!--Carregem els js per optimizar la carrega -->
-<!-- jQuery version must be >= 1.8.0; -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--Carregem els js per optimizar la carrega -->
+  <!-- jQuery version must be >= 1.8.0; -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<!-- A jQuery plugin that adds cross-browser mouse wheel support. (Optional) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.3.2/css/lightgallery.css" />
+  <!-- A jQuery plugin that adds cross-browser mouse wheel support. (Optional) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.3.2/css/lightgallery.css" />
+  <link rel="stylesheet" href="./css/lightgallery.css" />
 
-<!--Llibreria imatges -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.3.2/js/lightgallery.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lg-pager@1.0.2/dist/lg-pager.min.js"></script>
 
-<!--Accions i materialize-->
-<script type="text/javascript" src="js/materialize.min.js"></script>
-<script src="js/init.js"></script>
-<script>
-  require('./js/renderer.js')
-  require('./js/n_dataset.js')
-  require('./js/l_dataset.js')
-  require('./js/l_dandm.js')
-</script>
+  <!--Llibreria imatges -->
+  <script src="./js/lightgallery.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lg-pager@1.0.2/dist/lg-pager.min.js"></script>
+
+  <!--Accions i materialize-->
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script src="js/init.js"></script>
+  <script>
+    require('./js/renderer.js')
+    require('./js/n_dataset.js')
+    require('./js/l_dataset.js')
+    require('./js/l_dandm.js')
+    require('./js/models.js')
+  </script>
 
 </html>

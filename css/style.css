@@ -61,7 +61,7 @@ button#directori-train, button#directori-test {
 
 canvas#myChart {
   display: block;
-  width: 31%;
+  width: 50%;
   height: 400px;
 }
 
@@ -69,8 +69,7 @@ div#charts1 {
   float: left;
   display: block;
   margin-top: 5%;
-  margin-left: 7%;
-  width: 31%;
+  width: 45%;
   height: 400px;
 }
 
@@ -78,8 +77,8 @@ div#charts2 {
   float: left;
   display: block;
   margin-top: 5%;
-  margin-left: 17%;
-  width: 31%;
+  margin-left: 7%;
+  width: 45%;
   height: 400px;
 }
 

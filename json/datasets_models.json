@@ -20,5 +20,38 @@
     "LeNet-5":{
       "dir_model":""
     }
+  },"pre-models":{
+    "VGG16":{
+      "dir_model":"./pycalc/nnetworks/models/vgg16",
+      "depth":23
+    },
+    "VGG19":{
+      "dir_model":"./pycalc/nnetworks/models/vgg19",
+      "depth":26
+    },
+    "Xception":{
+      "dir_model":"./pycalc/nnetworks/models/xception",
+      "depth":126
+    },
+    "ResNet50":{
+      "dir_model":"./pycalc/nnetworks/models/resnet",
+      "depth":168
+    },
+    "InceptionV3":{
+      "dir_model":"./pycalc/nnetworks/models/incv3",
+      "depth":159
+    },
+    "InceptionResNetV2":{
+      "dir_model":"./pycalc/nnetworks/models/incv2",
+      "depth":572
+    },
+    "MobileNet":{
+      "dir_model":"./pycalc/nnetworks/models/mobilenet",
+      "depth":88
+    },
+    "DenseNet":{
+      "dir_model":"./pycalc/nnetworks/models/densenet",
+      "depth":121
+    }
   }
 }

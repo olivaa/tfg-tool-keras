@@ -57,22 +57,22 @@ num_classes.addEventListener('click', () => {
     amb una ventana modal
   */
 
-  if (dades_dataset["train_dir"] == "" || dades_dataset["validation_dir"]=="") {
+  if (dades_dataset["train_dir"] == "" || dades_dataset["validation_dir"] == "") {
     $("#modal-error").empty()
     $('<h4>Complete fields <i class="material-icons">error_outline</i></h4> <li>There are missing fields to complete. Please, complete all fields to start.</li>').appendTo("#modal-error")
     $('#modalError').modal('open');
   } else {
-  /*
-   *Agafem el numero introduit en el input de clases y creem aquest numero de
-   *tabs. A cada tab li ficarem un identificador diferent.
-   */
+    /*
+     *Agafem el numero introduit en el input de clases y creem aquest numero de
+     *tabs. A cada tab li ficarem un identificador diferent.
+     */
 
 
     var id_class = "classes";
     dades_dataset["classes"]["num_classes"] = r_classes.value
     if (r_classes.value > 0) {
       $("#tab-default").remove();
-      $( "#number-of-classes" ).prop( "disabled", true );
+      $("#number-of-classes").attr('disabled', 'disabled');
     }
     for (i = 0; i < r_classes.value; i++) {
       //Asi creem les carpetes de cada una de les clases tant per a l'entrenamiento
@@ -88,8 +88,7 @@ num_classes.addEventListener('click', () => {
       //les dades per a cada clase. Nom de la clase, afegir i eliminar images d'entrenament
       // i validacio, guardar clase, eliminar clase.
       $("<li class='tab text-white' id='tab-class' value='" + id_class + i + "'><a href='#" + id_class + i + "' > " + id_class + i + "</a></li>").appendTo("#tab-classes");
-      $("<div id='" + id_class + i + "' class='col s12' style='display:none;'><div class='row' id='row-" + id_class + i + "'></div></div>").appendTo("#principal-tab-classes");
-      $("<form id='" + id_class + i + "'>").appendTo("#" + id_class + i);
+      $("<div id='" + id_class + i + "' class='col s12' style='display:none;'><div class='row' id='row-" + id_class + i + "'></div></div>").appendTo("#new-tabs");
       $("<div class='row'><div class='input-field col s6' id='input-name'> <input id='name-" + id_class + i + "' type='text' class='validate'> <label for='name-" + id_class + i + "'>Class Name</label> </div></div>").appendTo("#" + id_class + i);
       $('<div class="row" id="set-img-' + id_class + i + '"> <div class="col s6"><div class="btn waves-effect waves-light" id="set-train-images" style="width: 100%;"><i class="material-icons right">file_upload</i> <span>Add Train Images</span> </div><div> </div>').appendTo("#" + id_class + i);
       $('<div class="col s6"> <div class="btn waves-effect waves-light" id="set-validation-images" style="width: 100%;"><i class="material-icons right">file_upload</i> <span>Add Validation Images</span> </div></div>').appendTo("#set-img-" + id_class + i);
@@ -331,16 +330,29 @@ $(document).on('click', "#delete-class", function() {
   console.log("#tab" + actual_class)
   element_tab.remove()
   $("#" + actual_class).remove()
+  //eliminem dades i modifiquem JSON
+  dades_dataset.classes.num_classes = dades_dataset.classes.num_classes - 1
+  delete dades_dataset.classes.info[actual_class]
+  //eliminem directoris
+  fs.rmdirSync(dades_dataset["train_dir"] + '/' + name_class);
+  fs.rmdirSync(dades_dataset["validation_dir"] + '/' + name_class);
 })
 //////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////Eliminar dataset//////////////////////////////////
 $(document).on('click', "#delete-dataset", function() {
   console.log("entra")
-  $('#principal-tab-classes').empty()
-  $('<div class="col s12"> <ul class="tabs tabs-fixed-width tab-demo transparent z-depth-1" id="tab-classes"> <li class="tab text-white" id="tab-default"><a href="#">Default</a></li> </ul> </div>').appendTo('#principal-tab-classes')
+  //reactivem el botó de crear
+  $("#number-of-classes").attr('disabled', null);
+  //elimina capçalera dels tabs
+  $('#tab-classes').empty()
+  //elimina divs amb info dels tabs
+  $('#new-tabs').empty()
+  //posem tab per defecte
+  $('<li class="tab text-white" id="tab-default"><a href="#">Default</a></li> ').appendTo('#tab-classes')
+  //reiniciem inputs
   $('#train-directory').val("")
-  $('#validation-directory').val("")
+  $('#test-directory').val("")
   //Reiniciem les variables
   train_directory = ""
   validation_directory = ""

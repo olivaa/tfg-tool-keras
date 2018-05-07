@@ -8,8 +8,8 @@ class TestCallback(keras.callbacks.Callback):
         self.test_data = test_data
 
     def on_epoch_end(self, epoch, logs={}):
-        x, y,epochs = self.test_data
-        loss, acc = self.model.evaluate(x, y, verbose=0)
+        epochs = self.test_data
+        #loss, acc = self.model.evaluate(x, y, verbose=0)
         context = zmq.Context()
         worker = context.socket(zmq.DEALER)
         worker.setsockopt(zmq.IDENTITY, b'usuari1')
@@ -18,4 +18,4 @@ class TestCallback(keras.callbacks.Callback):
         dades={"accuracy":logs.get('acc'),"loss":logs.get('loss'),"val_acc":logs.get('val_acc'),"val_loss":logs.get('val_loss'),"epoch":epoch}
         js=json.dumps(dades)
         worker.send_string(js)
-        print('\nTesting loss: {}, acc: {}\n'.format(loss, acc))
+        #print('\nTesting loss: {}, acc: {}\n'.format(loss, acc))
