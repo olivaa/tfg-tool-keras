@@ -70,6 +70,7 @@ const {
 var train_directory = ""
 var validation_directory = ""
 var dataset_name = ""
+let model_data = {}
 
 var dades_dataset = {
   name: dataset_name,
@@ -101,6 +102,11 @@ var data = {
   train_img: 0,
   validation_img: 0
 };
+var obj_data={
+  train_data:{},
+  model:{}
+}
+
 var epochs_chart = 0;
 var data_charts_acc = []
 var data_charts_loss = []
@@ -142,14 +148,12 @@ let entreno = document.querySelector('#entreno')
 entreno.addEventListener('click', () => {
 
   let directoriDataset = document.querySelector('#select-dataset')
-  let model = ""
   let epochs = document.querySelector('#epochs-train')
   let batch_size = document.querySelector('#batch-train')
   let train_img = document.querySelector('#train-images')
   let validation_img = document.querySelector('#validation-images')
-  $("#select-model option:selected").each(function() {
-    model += $(this).text();
-  });
+  let model = document.querySelector('#select-model')
+
   //console.log(directoriDataset.value+";"+model.value+";"epochs.value+";"+batch_size.value)
   if (directoriDataset.value !== "" && model.value !== "" && epochs.value !== 0 && batch_size.value !== 0) {
 
@@ -162,8 +166,11 @@ entreno.addEventListener('click', () => {
     data["batch_size"] = batch_size.value
     data["train_img"] = train_img.value
     data["validation_img"] = validation_img.value
+    obj_data["train_data"] = data
+    obj_data["model"]=model_data
+
     //llança la tasca d'entrenament amb els arguments corresponents a rutes y model
-    client.invoke("entrenar", data, (error, res) => {
+    client.invoke("entrenar", obj_data, (error, res) => {
       if (error) {
         console.error(error)
       } else {
@@ -294,6 +301,24 @@ timer.addEventListener('secondsUpdated', function(e) {
 });
 ////////////////////////////////////////////////////////////////////////////////
 
+///////////////////Event per seleccionar ruta model/////////////////////////////
+/*
+ * Instanciem aqui el event perque desde d'aquí s'inicial l'event de l'entrenament
+ * i es passa un objecte amb les dades del model per poder tractaro en el javascript
+ * python
+ */
+let directoriModel = document.querySelector('#select-model')
+directoriModel.addEventListener('click', () => {
+  const file = dialog.showOpenDialog({
+    properties: ['openFile'],
+  });
+  if (file) {
+    directoriModel.value=file[0]
+    model_data = JSON.parse(fs.readFileSync(file[0], 'utf8'));
+    console.log(model_data)
+  }
+})
+////////////////////////////////////////////////////////////////////////////////
 
 //directoris.dispatchEvent(new Event('button'))
 //entreno.dispatchEvent(new Event('click'))

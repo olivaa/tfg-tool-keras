@@ -285,7 +285,9 @@ div#dataset {
   overflow: hidden;
   transition: width .5s;
 }
-
+div#lateral-menu {
+    width: 15%;
+}
 .side-menu:hover {
   width: 13%;
 }

@@ -15,8 +15,10 @@ class CalcApi(object):
 
     def entrenar(self,text):
         #executa una el model de una capa
-        print(text)
-        subprocess.Popen(["python", "pycalc/nnetworks/models/general.py",text["train_dir"],text["validation_dir"],text["model"],text["epochs"],text["batch_size"],text["train_img"],text["validation_img"],"vgg16_top","vgg16_compile","11"])
+        
+        data_train_encode = json.dumps(text["train_data"])
+        model=json.dumps(text["model"])
+        subprocess.Popen(["python", "pycalc/nnetworks/models/general.py",data_train_encode,model])
         #print(text)
         return 0
     def crop(self,text):

@@ -20,7 +20,7 @@
 <body>
   <div class="row">
     <!--**********************Menu***************************************-->
-    <div class="col s2">
+    <div class="col s2" id="lateral-menu">
       <ul class="side-menu">
         <li><a href="#" id="train-button"><br><span class="fa fa-code"></span>Train</a></li>
         <li><a href="#" id="dataset-button"><br><span class="fa fa-cog"></span>Dataset</a></li>
@@ -35,17 +35,16 @@
       <div id="train-sets">
         <div id="train">
           <div class="row">
-            <div class="col s6" style="margin-top:3%;">
-              <div class="input-field" class="white-text">
-                <select id="select-model" class="materialSelect  white-text">
-                   <option value="" disabled selected>Choose your option</option>
-                 </select>
-                <label>Select Model</label>
-              </div>
 
+            <div class="col s6" style="margin-top:3%;">
+              <label>Select Model</label>
+              <input type="text" id="select-model" class="white-text file-path validate" placeholder="Select model file...">
             </div>
 
-            <div class="col s6" style="margin-top:4%;">
+
+
+            <div class="col s6" style="margin-top:3%;">
+              <label>Select Dataset</label>
               <input type="text" id="select-dataset" class="white-text file-path validate" placeholder="Select dataset file...">
             </div>
           </div>
@@ -261,30 +260,130 @@
                 <a class="btn-floating btn-small waves-effect waves-light blue modal-trigger" href="#modalInfo" style="margin-top:1%;"><i class="material-icons">help</i></a>
               </div>
             </div>
-            <div class="col s6">
-              <div class="col s11" style="margin-top:2%;">
-                <input type="text" id="select-file-transfer" class="white-text file-path validate" placeholder="Select your file...">
+          </div>
+
+          <div id="fine-tune">
+            <div class="row">
+              <div class="col s12">
+                <div class="row">
+
+                  <div class="col s12">
+                    <h5 class="white-text"> General parameters
+                    </h5>
+                    <div class="card-panel blue darken-2" style="height:200px;">
+                      <div class="row">
+                        <div class="col s4">
+                          <div class="col s3" style="margin-top:1%">
+                            <span class="white-text">Freeze Layers</span>
+                          </div>
+                          <div class="col s3">
+                            <input type="number" id="freeze_layers" class="basictxt white-text" placeholder="0">
+                          </div>
+                        </div>
+                        <div class="col s6">
+                          <div class="col s2" style="margin-top:1%">
+                            <span class="white-text">Fully Conected Layers</span>
+                          </div>
+                          <div class="col s9">
+                            <input type="text" id="select-file-fine" class="white-text file-path validate" placeholder="Select your file...">
+                          </div>
+                          <div class="input-field col s1">
+                            <a class="btn-floating btn-small waves-effect waves-light blue lighten-2 modal-trigger" href="#modalInfo" style="margin-top:1%;"><i class="material-icons">help</i></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col s6">
+                          <div class="col s2" style="margin-top:1%">
+                            <span class="white-text">Input Shape</span>
+                          </div>
+                          <div class="col s2">
+                            <input type="number" id="inp_shape_x" class="basictxt white-text" placeholder="width">
+                          </div>
+                          <div class="col s2">
+                            <input type="number" id="inp_shape_y" class="basictxt white-text" placeholder="height">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
               </div>
-              <div class="input-field col s1">
-                <a class="btn-floating btn-small waves-effect waves-light blue modal-trigger" href="#modalInfo" style="margin-top:1%;"><i class="material-icons">help</i></a>
+            </div>
+
+            <div class="row">
+              <div class="col s12">
+                <h5 class="white-text">Optimizer parameters</h5>
+                <div class="card-panel blue darken-2" style="height:300px;">
+                  <div class="row">
+                    <select id="select-opt-fine" class="materialSelect  white-text col s11">
+                         <option value="" disabled selected>Select optimizer</option>
+                         <option value="">SGD</option>
+                         <option value="">RMSprop</option>
+                         <option value="">Adagrad</option>
+                         <option value="">Adadelta</option>
+                         <option value="">Adam</option>
+                         <option value="">Adamax</option>
+                         <option value="">Nadam</option>
+                       </select>
+                  </div>
+                  <div class="row" id="param-opt-fine">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col s12">
+                <h5 class="white-text">Function Loss</h5>
+                <div class="card-panel blue darken-2" style="height:150px;">
+                  <div class="row">
+                    <select id="select-loss-fun" class="materialSelect  white-text col s11">
+                         <option value="" disabled selected>Select function loss</option>
+                         <option value="">mean_squared_error</option>
+                         <option value="">mean_absolute_error</option>
+                         <option value="">mean_absolute_percentage_error</option>
+                         <option value="">mean_squared_logarithmic_error</option>
+                         <option value="">squared_hinge</option>
+                         <option value="">hinge</option>
+                         <option value="">categorical_hinge</option>
+                         <option value="">logcosh</option>
+                         <option value="">categorical_crossentropy</option>
+                         <option value="">sparse_categorical_crossentropy</option>
+                         <option value="">binary_crossentropy</option>
+                         <option value="">kullback_leibler_divergence</option>
+                         <option value="">poisson</option>
+                         <option value="">cosine_proximity</option>
+
+                       </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s3" style="margin-left:75%">
+                <a class="btn waves-effect  waves-light green modal-trigger col s12" id="save-model" href="#modal-save-model">
+                  <i class="material-icons right">save</i>
+                  <span>Save Model</span>
+                </a>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col s6">
-              <div class="col s4">
-                <input type="number" id="freeze-layers" class="basictxt white-text" placeholder="Freeze top layers">
-              </div>
-            </div>
-          </div>
+          <!-- ****Fi fine-tune***** -->
+
         </div>
+
+
       </div>
-      <!-- ***********************Fi Modelos***************************** -->
 
-      <!-- ***********************Test redes entrenadas***************************** -->
-
-      <!-- ***********************Fi test redes***************************** -->
     </div>
+  </div>
+  <!-- ***********************Fi Modelos***************************** -->
+
+  <!-- ***********************Test redes entrenadas***************************** -->
+
+  <!-- ***********************Fi test redes***************************** -->
+  </div>
   </div>
   <!--Modal guardar dades d'un nou dataset-->
   <!-- Modal Structure -->
@@ -305,7 +404,30 @@
       </div>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Save</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" >Save</a>
+    </div>
+  </div>
+
+  <!--Modal guardar dades d'un nou model-->
+  <!-- Modal Structure -->
+  <div id="modal-save-model" class="modal">
+    <div class="modal-content">
+      <h4>SAVE YOUR MODEL</h4>
+      <div class="input-field col s6">
+        <input placeholder="Model Name" id="model_name" type="text" class="validate">
+        <label for="first_name"></label>
+      </div>
+      <div class="col s6">
+        <input disabled type="text" id="directori-model" class="basictxt black-text" placeholder="Model directory...">
+      </div>
+      <div class="col s6">
+        <div class="btn waves-effect waves-light" id="save-model-json" style="width: 100%;">
+          <span>Select Directory</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" >Save</a>
     </div>
   </div>
 
@@ -323,7 +445,6 @@
       <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" id="save-dataset-load">Save</a>
     </div>
   </div>
-
   <!-- Modal Info-->
   <div id="modalInfo" class="modal">
     <div class="modal-content">

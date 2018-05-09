@@ -1,0 +1,55 @@
+{
+	"type":"Fine-Tune",
+	"name":"",
+	"model":"",
+	"name-fully":"",
+	"input_shape_x":"",
+	"input_shape_y":"",
+	"select_optimizer":"",
+	"function_loss":"",
+	"freeze_layers":0,
+	"SGD":{
+		"lr": "None",
+		"momentum": "None",
+		"decay": "None",
+		"nesterov": "None"
+	},
+	"RMSprop":{
+		"lr": "None",
+		"rho": "None",
+		"epsilon": "None",
+		"decay": "None"
+	},
+	"Adagrad":{
+		"lr": "None",
+		"epsilon": "None",
+		"decay": "None"
+	},
+	"Adadelta":{
+		"lr": "None",
+		"rho": "None",
+		"epsilon": "None",
+		"decay": "None"
+	},
+	"Adam":{
+		"lr": "None",
+		"beta_1": "None",
+		"beta_2": "None",
+		"epsilon": "None",
+		"decay": "None",
+		"amsgrad": "None"
+	},
+	"Adamax":{
+		"lr": "None",
+		"beta_1": "None",
+		"beta_2": "None",
+		"epsion": "None",
+		"decay":"None"
+	},
+	"Nadam":{
+		"lr": "None",
+		"beta_1": "None",
+		"beta_2": "None",
+		"epsilon": "None"
+	}
+}

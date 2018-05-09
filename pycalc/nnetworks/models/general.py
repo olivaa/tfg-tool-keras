@@ -15,41 +15,47 @@ from keras import layers
 from keras import optimizers
 import callbacks as c
 from keras import backend as K
-
 import imp
-models = imp.load_source(sys.argv[3], os.path.dirname(os.path.abspath(__file__))+'/models/'+sys.argv[3]+'.py')
-modelTop = imp.load_source(sys.argv[8], os.path.dirname(os.path.abspath(__file__))+'/topLayer/'+sys.argv[8]+'.py')
-modelCompile = imp.load_source(sys.argv[9], os.path.dirname(os.path.abspath(__file__))+'/optimizers/'+sys.argv[9]+'.py')
 
-train_dir=sys.argv[1]
-validation_dir=sys.argv[2]
-nTrain = int(sys.argv[6])
-nVal = int(sys.argv[7])
-freeze_layers=int(sys.argv[10])
+data_train = json.loads(sys.argv[1])
+data_model = json.loads(sys.argv[2])
 
-type_learn="fine"
+#carregem moduls
+models = imp.load_source(data_model["model"], os.path.dirname(os.path.abspath(__file__))+'/models/'+data_model["model"]+'.py')
+modelTop = imp.load_source(data_model["name-fully"], os.path.dirname(os.path.abspath(__file__))+'/topLayer/'+data_model["name-fully"]+'.py')
+modelCompile = imp.load_source("vgg16_compile", os.path.dirname(os.path.abspath(__file__))+'/optimizers/vgg16_compile.py')
+
+
+train_dir=data_train["train_dir"]
+validation_dir=data_train["validation_dir"]
+nTrain = int(data_train["train_img"])
+nVal = int(data_train["validation_img"])
+freeze_layers=int(data_model["freeze_layers"])
+type_learn=data_model["type"]
+input_x=int(data_model["input_shape_x"])
+input_y=int(data_model["input_shape_y"])
 
 #Depenent la configuraci's'ha de cambiar l'entrada
 if K.image_data_format() == 'channels_first':
-	input_s=(3,224,224)
+	input_s=(3,input_x,input_y)
 	train_f=(nTrain, 512, 7, 7)
 	validation_f=(nVal, 512, 7, 7)
 	print("FIRST")
 else:
-	input_s=(224,224,3)
+	input_s=(input_x,input_y,3)
 	train_f=(nTrain, 7, 7, 512)
 	validation_f=(nVal, 7, 7, 512)
 	print("LAST")
 
 datagen = ImageDataGenerator(rescale=1./255)
-batch_size = int(sys.argv[5])
+batch_size = int(data_train["batch_size"])
 
 train_features = np.zeros(shape=train_f)
 train_labels = np.zeros(shape=(nTrain,2))
 
 train_generator = datagen.flow_from_directory(
     train_dir,
-    target_size=(224, 224),
+    target_size=(input_x, input_y),
     batch_size=batch_size,
     class_mode='categorical',
     shuffle=True)
@@ -59,13 +65,13 @@ validation_labels = np.zeros(shape=(nVal,2))
 
 validation_generator = datagen.flow_from_directory(
     validation_dir,
-    target_size=(224, 224),
+    target_size=(input_x, input_y),
     batch_size=batch_size,
     class_mode='categorical',
     shuffle=False)
 
 if(type_learn=="transfer"):#transfer learning
-	vgg_conv, model = models.create_model("transfer")
+	vgg_conv, model = models.create_model("transfer",input_x,input_y)
 
 
 	i = 0
@@ -91,11 +97,11 @@ if(type_learn=="transfer"):#transfer learning
 	validation_features = np.reshape(validation_features, (nVal, 7 * 7 * 512))
 	history = model.fit(train_features,
                     train_labels,
-                    epochs=int(sys.argv[4]),
+                    epochs=int(data_train["epochs"]),
                     batch_size=batch_size,
-                    callbacks=[c.TestCallback(int(sys.argv[4]))],
+                    callbacks=[c.TestCallback(int(data_train["epochs"]))],
                     validation_data=(validation_features,validation_labels))
-	
+
 	fnames = validation_generator.filenames
 	ground_truth = validation_generator.classes
 	label2index = validation_generator.class_indices
@@ -108,19 +114,16 @@ if(type_learn=="transfer"):#transfer learning
 
 else:#fine-tune
 	#carregem el model seleccionat
-	model=models.create_model("fine")
+	model=models.create_model("Fine-Tune",input_x,input_y)
 	model=modelTop.topLayers(model)
-	model=modelCompile.compile(model,freeze_layers)
-	
+	model=modelCompile.compile(model,freeze_layers,data_model)
+
 	model.summary()
 	history = model.fit_generator(
       train_generator,
       steps_per_epoch=10,
-      epochs=int(sys.argv[4]),
+      epochs=int(data_train["epochs"]),
       validation_data=validation_generator,
       validation_steps=10,
-      callbacks=[c.TestCallback(int(sys.argv[4]))],
+      callbacks=[c.TestCallback(int(data_train["epochs"]))],
       verbose=1)
-	
-
-

@@ -6,14 +6,14 @@ from keras import layers
 from keras import optimizers
 from keras import backend as K
 
-def create_model(type_learn):
+def create_model(type_learn,input_x,input_y):
 
 #Depenent la configuraci's'ha de cambiar l'entrada
 	if K.image_data_format() == 'channels_first':
-		input_s=(3,224,224)
+		input_s=(3,,input_x,input_y)
 		print("FIRST")
 	else:
-		input_s=(224,224,3)
+		input_s=(2,input_x,input_y,3)
 		print("LAST")
 
 	vgg_conv = VGG16(weights='imagenet',
@@ -30,7 +30,7 @@ def create_model(type_learn):
 						loss='categorical_crossentropy',
 						metrics=['acc'])
 		return vgg_conv,model
-	else:
+	else:#Fine-Tune
 		model = models.Sequential()
 		model.add(vgg_conv)
 		print("entre")

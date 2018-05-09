@@ -49,12 +49,12 @@ d = Object.keys(datasets)
 m = Object.keys(models)
 
 m.forEach(function(value) {
-  var x = document.getElementById("select-model");
-  var option = document.createElement("option");
-  option.text = value;
-  option.value = dataset[value]
-  x.add(option);
-  console.log(value);
+  //var x = document.getElementById("select-model");
+  //var option = document.createElement("option");
+//  option.text = value;
+//  option.value = dataset[value]
+//  x.add(option);
+//  console.log(value);
 });
 
 /*d.forEach(function(value) {
@@ -84,14 +84,14 @@ m.forEach(function(value) {
 /*
  *En aquesta funció agafem el valor del select corresponent als models
  *quan el usuari interactua amb el component
- */
+ *
 $("#select-model").change(function() {
   $("#select-model option:selected").each(function() {
     let str = ""
     str += $(this).text() + " ";
   });
 });
-
+*/
 
 ///////////////////Event per seleccionar ruta dataset///////////////
 let directoriDataset = document.querySelector('#select-dataset')
